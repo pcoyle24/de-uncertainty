@@ -1,0 +1,13 @@
+*.mat
+*.pdf
+*.log
+*.aux
+*.eps
+*.~rg
+*.bak
+*.bbl
+*.blg
+*.gz
+*.docx
+*.fls
+*.fdb_latexmk
