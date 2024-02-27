@@ -18,8 +18,7 @@ function [y,P,s]=rouwenhorst(rho,sigma,n)
 %          University of Minnesota
 %          karib003@umn.edu
 
-% ybar=sqrt((n-1)/(1-rho^2))*sigma;
-ybar=sqrt((n-1))*sigma;
+ybar=sqrt((n-1)/(1-rho^2))*sigma;
 y=linspace(-ybar,ybar,n);
 p=(1+rho)/2; q=p;
 P=rh(n);

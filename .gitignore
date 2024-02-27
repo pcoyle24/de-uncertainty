@@ -11,3 +11,6 @@
 *.docx
 *.fls
 *.fdb_latexmk
+*.thm
+*.DS_Store
+*._*

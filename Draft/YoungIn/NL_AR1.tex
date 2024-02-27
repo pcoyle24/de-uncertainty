@@ -1,0 +1,126 @@
+\documentclass[11pt]{article}
+\usepackage{scrextend}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{bm}
+
+%\usepackage{dsfont}
+% \usepackage{bbm}
+
+\usepackage[nohead]{geometry}
+\usepackage[onehalfspacing]{setspace}
+\usepackage[bottom]{footmisc}
+\usepackage{indentfirst}
+\usepackage{endnotes}
+\usepackage{mathtools}
+
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{graphics}
+\usepackage{epstopdf}
+
+
+%\usepackage{epsfig}
+
+\usepackage{lscape}
+\usepackage{titlesec}
+\usepackage{array}
+
+%\usepackage{hyperref}
+
+\usepackage{flexisym}
+\usepackage{nccfoots}
+\usepackage{datetime}
+\usepackage{multirow}
+\usepackage{booktabs}
+\usepackage{rotating}
+
+\usepackage{amsthm}
+\newtheorem{theorem}{Theorem}
+\newtheorem{definition}{Definition}
+\newtheorem{remark}{Remark}
+\newtheorem{proposition}{Proposition}
+\newtheorem{corollary}{Corollary}[proposition]
+\newtheorem{lemma}{Lemma}[theorem]
+
+\usepackage{chngcntr}
+\usepackage{apptools}
+\AtAppendix{\counterwithin{proposition}{section}}
+\AtAppendix{\counterwithin{definition}{section}}
+\AtAppendix{\counterwithin{corollary}{section}}
+
+
+\usepackage{thmtools}
+\usepackage{thm-restate}
+
+\usepackage[usenames,dvipsnames]{color}
+
+\usepackage[longnamesfirst]{natbib}
+\usepackage[justification=centering]{caption}
+
+%\usepackage{datetime}
+
+\DeclarePairedDelimiter\abs{\lvert}{\rvert}%
+\DeclarePairedDelimiter\norm{\lVert}{\rVert}%
+
+\definecolor{darkgray}{gray}{0.30}
+
+%\usepackage[dvips, colorlinks=true, linkcolor=darkgray,
+
+\usepackage[colorlinks=true, linkcolor=darkgray, citecolor=darkgray, urlcolor=darkgray, bookmarks=false, ,
+pdfstartview={FitV},
+pdftitle={Zero Bound Risk},
+pdfauthor={Taisuke Nakata},
+pdfkeywords={Liquidity Trap, Zero Lower Bound}]{hyperref}
+\usepackage{xcolor,colortbl}
+\usepackage{float}
+
+\newcommand*{\LargerCdot}{\raisebox{-.5ex}{\scalebox{2}{$\cdot$}}}
+
+\makeatletter
+\def\@biblabel#1{\hspace*{-\labelsep}}
+\makeatother
+\geometry{left=1.2in,right=1.2in,top=1in,bottom=1in}
+
+
+\begin{document}
+
+	\title{Risk Adjusted Fisher Relation in Nonlinear NK Model with AR$(1)$ Shock }
+	\author{
+		Philip Coyle}
+	\newdateformat{mydate}{\monthname[\THEMONTH] \THEYEAR}
+	%\newdateformat{mydate}{This Draft: \monthname[\THEMONTH] \THEYEAR}
+	\date{\mydate\today}
+
+	\maketitle
+
+	\vspace{-0.3in}
+
+
+\section{Problem with the model}
+
+I think there is an issue with equation $52$. The equation is as follows:
+\begin{align*}
+	C_i = C_{mid}\left(\frac{\delta_i R_i}{R_{mid}}\right)^{-\frac{1}{\chi_c}}
+\end{align*}
+The construction of the ''Demeaned Euler Equation'' is slightly different than that from the iid case, due to the persistence of the shock.
+
+Given the EE, we can rewrite it as follows:
+\begin{align}
+C_{t}	= \left(\beta \delta_t R_t \mathbb{E}_t \left\{C_{t+1}^{\chi_c} \Pi_{t+1}^{-1}\right\}\right)^{-\left(\frac{1}{\chi_c}\right)}
+\end{align}
+Then, the nonlinear equivalent demeaned EE is:
+\begin{align}
+	\frac{C_{RSS}(\delta \neq \delta_{mid})}{C_{RSS}(\delta = \delta_{mid})} & = \left[\frac{\beta \delta(\neq \delta_{mid}) R_{RSS}(\delta \neq \delta_{mid}) \mathbb{E} \left\{C_(\delta' | \delta \neq \delta_{mid})^{-\chi_c} \Pi(\delta' | \delta \neq \delta_{mid})^{-1}\right\}}{\beta \delta_{mid} R_{RSS}(\delta = \delta_{mid}) \mathbb{E} \left\{C(\delta' | \delta = \delta_{mid})^{-\chi_c} \Pi(\delta' | \delta = \delta_{mid})^{-1}\right\}}\right]^{-\left(\frac{1}{\chi_c}\right)} \\
+	& = \left[\frac{\delta(\neq \delta_{mid}) R_{RSS}(\delta \neq \delta_{mid}) \mathbb{E} \left\{C_(\delta' | \delta \neq \delta_{mid})^{-\chi_c} \Pi(\delta' | \delta \neq \delta_{mid})^{-1}\right\}}{R_{RSS}(\delta = \delta_{mid}) \mathbb{E} \left\{C(\delta' | \delta = \delta_{mid})^{-\chi_c} \Pi(\delta' | \delta = \delta_{mid})^{-1}\right\}}\right]^{-\left(\frac{1}{\chi_c}\right)}
+\end{align}
+
+
+
+These expectation terms \emph{don't} cancel out, due to the persistence of the shock. In other words, tomorrow's state depends on today's state.
+
+The incorrect demeaned EE is what I believe is causing the issue. Now I understand when programming in the iid shock, the results look similar -- because the expectations cancel out
+
+\end{document}

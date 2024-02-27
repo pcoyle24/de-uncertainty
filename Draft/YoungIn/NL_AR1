@@ -1,0 +1,1508 @@
+\documentclass[11pt]{article}
+\usepackage{scrextend}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{bm}
+
+%\usepackage{dsfont}
+% \usepackage{bbm}
+
+\usepackage[nohead]{geometry}
+\usepackage[onehalfspacing]{setspace}
+\usepackage[bottom]{footmisc}
+\usepackage{indentfirst}
+\usepackage{endnotes}
+\usepackage{mathtools}
+
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{graphics}
+\usepackage{epstopdf}
+
+
+%\usepackage{epsfig}
+
+\usepackage{lscape}
+\usepackage{titlesec}
+\usepackage{array}
+
+%\usepackage{hyperref}
+
+\usepackage{flexisym}
+\usepackage{nccfoots}
+\usepackage{datetime}
+\usepackage{multirow}
+\usepackage{booktabs}
+\usepackage{rotating}
+
+\usepackage{amsthm}
+\newtheorem{theorem}{Theorem}
+\newtheorem{definition}{Definition}
+\newtheorem{remark}{Remark}
+\newtheorem{proposition}{Proposition}
+\newtheorem{corollary}{Corollary}[proposition]
+\newtheorem{lemma}{Lemma}[theorem]
+
+\usepackage{chngcntr}
+\usepackage{apptools}
+\AtAppendix{\counterwithin{proposition}{section}}
+\AtAppendix{\counterwithin{definition}{section}}
+\AtAppendix{\counterwithin{corollary}{section}}
+
+
+\usepackage{thmtools}
+\usepackage{thm-restate}
+
+\usepackage[usenames,dvipsnames]{color}
+
+\usepackage[longnamesfirst]{natbib}
+\usepackage[justification=centering]{caption}
+
+%\usepackage{datetime}
+
+\DeclarePairedDelimiter\abs{\lvert}{\rvert}%
+\DeclarePairedDelimiter\norm{\lVert}{\rVert}%
+
+\definecolor{darkgray}{gray}{0.30}
+
+%\usepackage[dvips, colorlinks=true, linkcolor=darkgray,
+
+\usepackage[colorlinks=true, linkcolor=darkgray, citecolor=darkgray, urlcolor=darkgray, bookmarks=false, ,
+pdfstartview={FitV},
+pdftitle={Zero Bound Risk},
+pdfauthor={Taisuke Nakata},
+pdfkeywords={Liquidity Trap, Zero Lower Bound}]{hyperref}
+\usepackage{xcolor,colortbl}
+\usepackage{float}
+
+\newcommand*{\LargerCdot}{\raisebox{-.5ex}{\scalebox{2}{$\cdot$}}}
+
+\makeatletter
+\def\@biblabel#1{\hspace*{-\labelsep}}
+\makeatother
+\geometry{left=1.2in,right=1.2in,top=1in,bottom=1in}
+
+
+\begin{document}
+
+	\title{Risk Adjusted Fisher Relation in Nonlinear NK Model with AR$(1) Shock$ }
+	\author{
+		Philip Coyle}
+	\newdateformat{mydate}{First Draft: January 2019\\This Draft: \monthname[\THEMONTH] \THEYEAR}
+	%\newdateformat{mydate}{This Draft: \monthname[\THEMONTH] \THEYEAR}
+	\date{\mydate\today}
+
+	\maketitle
+
+	\vspace{-0.3in}
+
+
+	%==========================================================
+	%==========================================================
+	%==========================================================
+	%==========================================================
+	%==========================================================
+	%==========================================================
+	%==========================================================
+	%==========================================================
+	%========================================================== Model (Stylized Model)
+	%==========================================================
+	%==========================================================
+	%==========================================================
+	%==========================================================
+	%==========================================================
+	%==========================================================
+	%==========================================================
+	%\section{Stylized Model}
+	\section{Model}
+	\label{S:Model}
+
+	We use a standard New Keynesian model formulated in discrete time with an infinite horizon (\citet{Woodford2003Book} and \citet{Gali2015Book}). To derive some analytical results, we put the equilibrium conditions of the model in a loglinear form, as commonly done in the literature (x, y,  and z). The equilibrium conditions are given by:
+	\begin{align}
+	& y_{t} = \mathbb{E}_t[y_{t+1}] - \sigma\left[i_t - \mathbb{E}_t[\pi_{t+1}]-  (r^* + \delta_t)\right] \label{eq:EE}\\
+	& \pi_{t} = \kappa y_t + \beta\mathbb{E}_t[\pi_{t+1}]\label{eq:PC}\\
+	& i_t = \text{max}\left[i_{ELB},r^* + \phi_{\pi}\pi_t\right]\label{eq:TR}
+	\end{align}
+
+	\noindent $y_t$, $\pi_t$, and $i_t$ are the output gap, inflation rate, and the nominal interest rate. Equation (\ref{eq:EE}) is the Euler equation, equation (\ref{eq:PC}) is the Phillips Curve, and equation (\ref{eq:TR}) is the truncated Taylor rule. $\beta\in(0, 1)$ denotes the representative household's subjective discount factor. $\sigma>0$ is the intertemporal elasticity of substitution in consumption; $\kappa$ is the slope of the New Keynesian Phillips Curve; $r^*$ is the long-run natural rate of interest; $\phi_{\pi}$ is the coefficient on inflation in the truncated Taylor Rule and $i_{ELB}$ is the effective lower bound constraint on the nominal interest rate.
+
+	$\delta_t$ is an exogenous shock. Throughout the paper, we assume that the distribution of $\delta_t$ is symmetric so that we can analyze the effect of a mean-preserving spread of the shock on the economy. In particular, in the next section, we assume that $\delta_t$ is i.i.d. and takes three values. In the section that follows, we assume that $\delta_t$ follows an AR(1) process.
+
+	For any shock process for $\delta$, a recursive equilibrium of this economy is defined as a set of time-invariant policy functions, $\{i(\cdot)$, $\pi(\cdot)$, $y(\cdot)\}$ satisfying the Euler equation, the Phillips curve, and the truncated Taylor rule. They are functions of the exogenous shock, $\delta$.
+
+	As alluded by the existence of two deterministic steady states, which we will discuss shortly, there exist two recursive equilibria under some regularity conditions. Let $\{i^{TE}(\cdot)$, $\pi^{TE}(\cdot)$, $y^{TE}(\cdot)\}$ denote the equilibrium with a higher risky steady state inflation than the other. And let $\{i^{DE}(\cdot)$, $\pi^{DE}(\cdot)$, $y^{DE}(\cdot)\}$ denote the equilibrium with a lower risky steady state inflation than the other. We will refer to the first equilibrium as the target equilibrium and the second as the deflationary equilibrium.
+
+	\subsection{Deterministic steady state and standard Fisher relation}
+
+	As shown by \citet{BenhabibSchmittGroheUribe2001} and others, there are two deterministic steady states in this model. In the first steady state, the policy rate is positive, and inflation and the output gap are both zero. This deterministic steady state will be referred to as the deterministic steady state of the target equilibrium, and is denoted by $i_{DSS}^{TE}$, $\pi_{DSS}^{TE}$, and $y_{DSS}^{TE}$. It is straightforward to show that
+	%	\begin{align}
+	\begin{equation}
+	%	i_{DSS}^{TE} & = r^* \\
+	%	\pi_{DSS}^{TE} & = 0 \\
+	%	y_{DSS}^{TE} & = 0
+	i_{DSS}^{TE} = r^*,\hspace{1em}\pi_{DSS}^{TE} = 0,\hspace{1em} y_{DSS}^{TE} = 0
+	\end{equation}
+	%	\end{align}
+
+	In the second steady state, the policy rate is zero, and inflation and the output gap are both negative. This deterministic steady state will be referred to as the deterministic steady state of the deflationary equilibrium, and is denoted by $i_{DSS}^{DE}$, $\pi_{DSS}^{DE}$, and $y_{DSS}^{DE}$. It is straightforward to show that
+	%	\begin{align}
+	\begin{equation}
+	%	i_{DSS}^{DE} & = 0 \\
+	%	\pi_{DSS}^{DE} & = -r^* \\
+	%	y_{DSS}^{DE} & = -\frac{r^*}{1-\beta}
+	i_{DSS}^{DE} = 0,\hspace{1em}\pi_{DSS}^{DE}= -r^*,\hspace{1em}y_{DSS}^{DE} = -\frac{r^*}{1-\beta}
+	\end{equation}
+	%	\end{align}
+
+	One way to understand these two deterministic steady states is through the intersections of the truncated Taylor rule and the standard Fisher relation. The standard Fisher relation is the Euler equation evaluated at the deterministic steady states and is given by
+	%	\begin{align}
+	\begin{equation}
+	i_{DSS} =  r^* + \pi_{DSS}\label{eq:FR}
+	\end{equation}
+	%	\end{align}
+	The standard Fisher relation describes a relationship between the policy rate and inflation that has to hold at the deterministic steady state. The truncated Taylor rule gives us another relationship that has to hold at the deterministic steady state:
+	\begin{align}
+	& i_{DSS} =  \text{max}\Bigl[0,r^* + \phi_{\pi}\pi_{DSS}\Bigr]\label{eq:TTR}
+	\end{align}
+
+	As shown by Figure \ref{fig:RAFR}, provided that the Taylor principle is satisfied, the standard Fisher relation---shown by the solid blue line---and the truncated Taylor rule---shown by the solid black line---intersect in two distinct locations.
+
+	\begin{figure}[!ht]  %[!ht]
+		\begin{center}
+			\caption{Standard and Risk-Adjusted Fisher Relation}
+			\includegraphics[width= 12cm]{Figs/Final/RAFR.eps}
+			\label{fig:RAFR}
+		\end{center}
+		\scriptsize{$^*$Note: RSS stands for ``deterministic steady state,'' RSS stands for ``risky steady state,'' TE stands for ``target equilibrium,'' and DE stands for ``deflationary equilibrium.'' $\pi^*$ is the inflation target.}
+	\end{figure}
+
+	\subsection{Risky steady state and risk-adjusted Fisher relation}
+
+	Generically speaking, a risky steady state of the economy is a point to which the economy eventually converges when exogenous shocks are set to its steady state values (\citet{CoeurdacierReyWinant2011} and \citet{HillsNakataSchmidt2016}). In our model in which there is no endogenous state variables and there is only one exogenous shock, a risky steady state is given by the policy functions evaluated at $\delta=0$. As discussed earlier, there are two recursive equilibria under some regularity conditions. Thus, there are two risky steady states. The risky steady state associated with the target equilibrium will be denoted by $i_{RSS}^{TE}$, $\pi_{RSS}^{TE}$, and $y_{RSS}^{TE}$. That is,
+	%	\begin{align}
+	\begin{equation}
+	%	i_{RSS}^{TE} & = i^{TE}(r_n=r^*) \\
+	%	\pi_{RSS}^{TE} & = \pi^{TE}(r_n=r^*) \\
+	%	y_{RSS}^{TE} & = y^{TE}(r_n=r^*)
+	i_{RSS}^{TE} := i^{TE}(\delta=0),\hspace{1em}\pi_{RSS}^{TE} := \pi^{TE}(\delta=0),\hspace{1em}y_{RSS}^{TE} := y^{TE}(\delta=0)
+	\end{equation}
+	%	\end{align}
+
+	\noindent The risky steady state associated with the deflationary equilibrium will be denoted by $i_{RSS}^{DE}$, $\pi_{RSS}^{DE}$, and $y_{RSS}^{DE}$. That is,
+	%	\begin{align}
+	\begin{equation}
+	%	i_{RSS}^{DE} & = i^{DE}(r_n=r^*) \\
+	%	\pi_{RSS}^{DE} & = \pi^{DE}(r_n=r^*) \\
+	%	y_{RSS}^{DE} & = y^{DE}(r_n=r^*)
+	i_{RSS}^{DE} := i^{DE}(\delta=0),\hspace{1em}\pi_{RSS}^{DE} := \pi^{DE}(\delta=0),\hspace{1em}y_{RSS}^{DE} := y^{DE}(\delta=0)
+	\end{equation}
+	%	\end{align}
+
+	We will be characterizing the risky steady states through the truncated Taylor rule and the risk-adjusted Fisher relation. The risk-adjusted Fisher relation is the Euler equation evaluated at $\delta=0$:
+	\begin{align}
+	i_{RSS} &= r^* + \sigma^{-1}\left(\mathbb{E}[y(\delta')|\delta=0] - y_{RSS}\right) + \mathbb{E}[\pi(\delta')|\delta=0]\nonumber \\
+	&= r^* + \pi_{RSS} + \sigma^{-1}\left[\mathbb{E}[y_{\pi_{RSS}}(\delta')|\delta=0] - y_{RSS}\right] +\left[\mathbb{E}[\pi_{\pi_{RSS}}(\delta')|\delta=0] - \pi_{RSS}\right]\label{eq:RAFR}
+	\end{align}
+
+	\noindent where we simply add and subtract $\pi_{RSS}$ to go from the first line to the second line. $y_{\pi_{RSS}}(\cdot)$ and $\pi_{\pi_{RSS}}(\cdot)$ are \textit{hypothetical} policy functions for output and inflation that would prevail if (i) $\pi_{\pi_{RSS}}(\delta=0)=\pi_{RSS}$, (ii) the truncated Taylor rule is satisfied, (iii) the Phillips curve is satisfied,  and (iv) \textit{demeaned} Euler equations are satisfied, where the demeaned Euler equation is defined for all $x \ne \delta = 0$ and is given by
+	\begin{align}
+	& y_{\pi_{RSS}}(\delta=x)-y_{\pi_{RSS}}(\delta=0) \nonumber\\
+	& \hspace{0.3cm} = \hspace{0.1cm}\mathbb{E}_t[y_{\pi_{RSS}}(\delta')|\delta=x] - \mathbb{E}_t[y_{\pi_{RSS}}(\delta')|\delta=0] -\sigma\left[i_{\pi_{RSS}}(\delta=x) - i_{\pi_{RSS}}(\delta=0)\right]\nonumber\\
+	& \hspace{0.5cm}+ \sigma\left[\mathbb{E}[\pi_{\pi_{RSS}}(\delta')|\delta=x]-\mathbb{E}[\pi_{\pi_{RSS}}(\delta')|\delta=0]\right]-x \label{eq:dEE}
+	\end{align}
+	%at $r^n\ne r^*$
+
+	Note that, by construction, a risky steady state is given by the intersection of the truncated Taylor rule and the risk-adjusted Fisher relation. To see why, let $i_{\pi_{RSS}}(\cdot)$ denote the hypothetical policy function consistent with $y_{\pi_{RSS}}(\cdot)$ and $\pi_{\pi_{RSS}}(\cdot)$. Note that $i_{RSS}$ implied by the risk-adjusted Fisher relation does not need to be consistent with the truncated Taylor rule, even though $i_{\pi_{RSS}}(\cdot)$ and $\pi_{\pi_{RSS}}(\cdot)$ are consistent with the truncated Taylor rule. When  $i_{RSS}$ implied by the risk-adjusted Fisher relation satisfies the truncated Taylor rule (in other words, when $i_{RSS} = i_{\pi_{RSS}}(\delta=0)$), then the hypothetical policy functions satisfy the Euler equation at $\delta=0$. Because the hypothetical policy functions satisfy the demeaned Euler equation for all $\delta\ne 0$, that means that the hypothetical policy functions satisfy the Euler equation for all $\delta$. And because the hypothetical policy functions satisfy the Phillips curve and the truncated Taylor rule for all $\delta$, the hypothetical policy functions satisfy all the equilibrium conditions and coincide with the true policy functions.
+
+	Before we start a formal analysis, it is useful to get a sense of how the risk-adjusted Fisher relation looks like. For that, Figure \ref{fig:RAFR} shows an example of the risk-adjusted Fisher relation -- given by the solid red line -- using a model with AR(1) shock we will examine in Section 4. Because the presence of the ELB constraint push downward bias in the expectations of future inflation and output, the risk-adjustment term in the risk-adjusted Fisher relation is non-positive. As a result, the risk-adjusted Fisher relation are either identical or below the standard Fisher relation for any candidate $\pi_{RSS}$. One implication of this observation is that inflation is lower at the risky steady state than at the deterministic steady state in the target equilibrium. Another implication is that inflation is higher at the risky steady state than at the deterministic steady state in the deflationary equilibrium. In the sections below, we will formally characterize the conditions under which these observations hold true and discuss what could happen when those conditions are not met.
+
+	Our interest is not just to understand how uncertainty affects the risky steady states associated with the target and deflationary equilibria, but to understand the effect of uncertainty on the target and deflationary equilibria. However, because the risky steady states can be characterized as the intersection of the truncated Taylor rule and the risk-adjusted Fisher relation, we will use the risky steady states of these two equilibria as an entry point of our analysis to analyze the two equilibria.
+
+	%s is We will examine how uncertainty affects the target and deflationary equilibria
+
+	%We will be characterizing the target equilibrium and deflationary equilibrium with a particular emphasis on the risky steady state.
+
+	%Unlike the deterministic steady states, the risky steady states depends on the process governing the exogenous shock and, in general, the analytical expressions are not available.
+
+	\section{Model with a three-state shock}
+	\label{S:Model3}
+
+	In this section, we will investigate how the degree of uncertainty affect the target and deflationary equilibria in a model with a three-state i.i.d. shock. One benefit of adopting the three-state i.i.d. shock is that it allows us to characterize the target and deflationary equilibria analytically.
+
+	The shock takes the value of $c$, $0$, and $-c$ in the high, middle, and low state, respectively.
+	\begin{equation}
+	\delta_H = c, \hspace{0.5em}\delta_M = 0, \hspace{0.5em}\delta_L = -c
+	%(\text{or, } r^{*}+c?), r^n_M = 0,  r^n_L = -c %(\text{or, } r^{*}-c?)
+	\end{equation}
+
+	Because our shock follows an i.i.d. process, the transition probabilities are given by the following:
+	\begin{align}
+	& \text{Prob}\left(\delta = c \right) = \frac{1-p_M}{2}\\
+	& \text{Prob}\left(\delta = 0 \right) = p_M\\
+	& \text{Prob}\left(\delta = -c \right) = \frac{1-p_M}{2}
+	\end{align}
+	\noindent
+	%	where $p_M$ is the probability of being in the midlles state.
+
+	The recursive equilibrium of this model is given by a vector, $\{y_H$, $\pi_H$, $i_H$, $y_M$, $\pi_M$, $i_M$, $y_L$, $\pi_L$, $i_L\}$, satisfying (i) the Euler equation for each state:
+	\begin{align}
+	y_{H} & = \mathbb{E}[y_{t+1}] - \sigma\left[i_{H} - r^* - \mathbb{E}[\pi_{t+1}]-c\right] \label{eq:EE_H} \\
+	y_{M} & = \mathbb{E}[y_{t+1}] - \sigma\left[i_{M} - r^* - \mathbb{E}[\pi_{t+1} ]\right] \label{eq:EE_M}\\
+	y_{L} & = \mathbb{E}[y_{t+1}] - \sigma\left[i_{L} - r^* - \mathbb{E}[\pi_{t+1}] +c\right] \label{eq:EE_L}
+	\end{align}
+	\noindent (ii) the Phillips curve for each state:
+	\begin{align}
+	\pi_{H}  & = \kappa y_{H} + \beta\mathbb{E}[\pi_{t+1}]  \label{eq:PC_H}\\
+	\pi_{M}  & = \kappa y_{M} + \beta\mathbb{E}[\pi_{t+1}]  \label{eq:PC_M}\\
+	\pi_{L}  & = \kappa y_{L} + \beta\mathbb{E}[\pi_{t+1}]  \label{eq:PC_L}
+	\end{align}
+	\noindent and (iii) the truncated Taylor rule for each state:
+	\begin{align}
+	i_{H} & = \text{max}\left[0, r^*  + \phi_{\pi}\pi_{H} \right] \label{eq:TR_H}\\
+	i_{M} & = \text{max}\left[0, r^*  + \phi_{\pi}\pi_{M} \right] \label{eq:TR_M}\\
+	i_{L} & = \text{max}\left[0, r^*  + \phi_{\pi}\pi_{L} \right] \label{eq:TR_L}
+	\end{align}
+	where $\mathbb{E}[x_{t+1}] \coloneqq \frac{1-p_M}{2}x_H + p_Mx_M + \frac{1-p_M}{2}x_L$ and $x\in\{y,\pi\}$.
+	%Note that the more transitory the expectations-driven LT is, the lower the output gap during the expectations-driven LT, as discussed in Appendix~\ref{A:pTpD}.
+	%	\subsection{Risk-Adjusted Fisher Relation}
+
+	%	While not immediately obvious, the risk-adjusted Fisher relation can be expressed as a function of $\pi_M$. This fact allows us to build out figure \ref{fig:RAFR}: for every input, $\pi_M$, we find the appropriate value of $i_M$.  This leads us to our first proposition:
+	\subsection{Properties of the risk-adjusted Fisher relation}
+
+	We first describe key features of the risk-adjusted Fisher relation.
+
+	\begin{restatable}{proposition}{propone}
+		The risk-adjusted Fisher relation is the following piecewise linear function:
+		\begin{align}
+		i_M =
+		\begin{cases}
+		r^* + \pi_{RSS} & \text{if } \pi_{RSS} < \pi_{LB}\\
+		r^* + \alpha_{1}\pi_{RSS} & \text{if } \pi_{LB} \le \pi_{RSS} \le \pi_{B}\\
+		r^* + \alpha_{2}\pi_{RSS} & \text{if } \pi_{B} \le \pi_{RSS} \le \pi_{UB}\\
+		r^* + \pi_{RSS} & \text{if } \pi_{UB} < \pi_{RSS}
+		\end{cases}
+		\end{align}
+		\noindent where
+		%	\begin{align*}
+		\begin{equation*}
+		%		\pi_{LB} &\coloneqq -\frac{r^* + \kappa\phi_{\pi}\sigma c}{\phi_{\pi}}\\
+		%    	\pi_{B} &\coloneqq -\frac{r^*}{\phi_{\pi}}\\
+		%		\pi_{UB} &\coloneqq -\frac{\frac{r^*}{\phi_{\pi}} + \kappa\sigma(r^* - c)}{\kappa\sigma\phi_{\pi} + 1}\\
+		\pi_{LB} \coloneqq -\frac{r^* + \kappa\phi_{\pi}\sigma c}{\phi_{\pi}},\hspace{0.5em}\pi_{B} \coloneqq -\frac{r^*}{\phi_{\pi}},\hspace{0.5em}\pi_{UB} \coloneqq -\frac{\frac{r^*}{\phi_{\pi}} + \kappa\sigma(r^* - c)}{\kappa\sigma\phi_{\pi} + 1}\\
+		\end{equation*}
+		\noindent and
+		\begin{align*}
+		\alpha_{1} &= \frac{1}{2\pi_{RSS}}\left(c(p_M - 1 ) + \frac{1}{\phi_{\pi}}\left[(r^* - c)(p_M - 1)(1+ (\kappa\phi_{\pi}\sigma + 1)^{-1}(\phi_{\pi} - 1))\right] + \kappa c\sigma(p_M -1)\right) \\
+		& \hspace{1cm} + \frac{1}{2}\left(p_M + (\kappa\phi_{\pi}\sigma + 1)^{-1} - (\phi_{\pi}-1)(p_M -1) + 1\right)\\
+		\alpha_{2} &=\frac{1}{2\pi_{RSS}}\left((r^*-c)(1-p_M)(1+\kappa\sigma) - \frac{c(p_M -1)}{\phi_{\pi}}\left(1-\frac{\phi_{\pi}} {\kappa\phi_{\pi}\sigma + 1}\right)\right) \\
+		& \hspace{1cm} + \frac{1}{2}\left(\phi_{\pi}(1-p_M)(1+\kappa\sigma)\right) + 1
+		\end{align*}
+	\end{restatable}
+	\begin{proof}
+		See Appendix \ref{A:ThreeStateiid}.
+	\end{proof}
+
+	When the candidate $\pi_{RSS}$ is below $\pi_{LB}$, the policy rate is at the ZLB for any state according to the hypothetical, $\pi_{RSS}$-specific, policy functions defined earlier. As a result, certainty equivalence holds and the expected inflation and output in the next period are the same as the risky steady state inflation and output. Thus, the risk-adjustment term in the risk-adjusted Fisher relation is zero, and the risk-adjusted Fisher relation coincides with the standard Fisher relation.
+
+	When the candidate $\pi_{RSS}$ is above $\pi_{LB}$ but below $\pi_{B}$, the hypothetical policy rate is at the ZLB in the low and middle states, but above the ZLB in the high state. As a result, certainty equivalence breaks down. The risk-adjustment term is bigger the closer the candidate $\pi_{RSS}$ is to $\pi_{B}$.
+
+	When the candidate $\pi_{RSS}$ is above $\pi_{B}$ but below $\pi_{UB}$, the hypothetical policy rate is at the ZLB in the low state, but above the ZLB in the middle and high states. As a result, certainty equivalence breaks down. The risk-adjustment term is bigger the closer the candidate $\pi_{RSS}$ is to $\pi_{B}$.
+
+	Finally, when the candidate $\pi_{RSS}$ is above $\pi_{UB}$, the hypothetical policy rate is above the ZLB for any states. As a result, certainty equivalence holds and the expected inflation and output in the next period are the same as the risky steady state inflation and output. Thus, the risk-adjustment term in the risk-adjusted Fisher relation is zero, and the risk-adjusted Fisher relation coincides with the standard Fisher relation.
+
+	Note that $\pi_{LB}$ and $\pi_{UB}$ are decreasing and increasing, respectively, with the degree of uncertainty $c$. When the degree of uncertainty is small, the ZLB binds in all states unless the candidate $\pi_{RSS}$ is sufficiently large and close to $\pi_{B}$. However, if the degree of uncertainty is large, the good shock can lead to a positive policy rate even when the candidate $\pi_{RSS}$ is low. Thus, $\pi_{LB}$ decreases with the degree of uncertainty.
+
+	Similarly, When the degree of uncertainty is small, the policy rate is above the ZLB constraint in all states unless the candidate $\pi_{RSS}$ is sufficiently low and close to $\pi_{B}$. However, if the degree of uncertainty is large, the bad shock can push down the policy rate to ZLB even when the candidate $\pi_{RSS}$ is high. Thus, $\pi_{UB}$ increases with the degree of uncertainty.
+	%Where $x^{s}$, $s\in\{LM, L\}$ denotes the policy functions conditional on which states the ELB binds in. All policy functions and expectations are functions of $\pi_M$ and thus $i_M$ is a function of $\pi_M$.
+
+	%		\underline{$\pi_{B}$} is the value of inflation at which the Taylor Rule is identically equal to zero. In other words, it is the value that solves the following equation: $r^*  + \phi_{\pi}\pi_B = 0$.
+	%	$\pi_{B}$ corresponds to the thin solid black line in figure \ref{fig:RAFR}.
+	%		The lower-bound cutoff (\underline{$\pi_{LB}$}) is the first point of the risk-adjusted Fisher relation that diverges from the standard Fisher relation on the domain $(-\infty, \pi_{B}]$.
+	%		\begin{align*}
+	%		\end{align*}
+	%	\noindent
+	%	$\pi_{LB}$ corresponds to the thin dot-dashed black line in figure \ref{fig:RAFR}.
+
+	%	\begin{definition}
+	%		The upper-bound cutoff (\underline{$\pi_{UB}$}) is the first point of the risk-adjusted Fisher relation that diverges from the standard Fisher relation on the domain $[\pi_{B},\infty)$
+
+	%	\end{definition}
+	\noindent
+	%	$\pi_{UB}$ corresponds to the thin dashed black line in figure \ref{fig:RAFR}.
+
+	%==========================================================
+	%==========================================================
+	%==========================================================
+	%==========================================================
+	%==========================================================
+	%==========================================================
+	%==========================================================
+	%==========================================================
+	%========================================================== Results (Stylized Model)
+	%==========================================================
+	%==========================================================
+	%==========================================================
+	%==========================================================
+	%==========================================================
+	%==========================================================
+	%==========================================================
+	\subsection{The effect of uncertainty}
+
+	We now formally examine how a chance in uncertainty affects the target and deflationary equilibrium.
+
+	As we shall see shortly, the effect of a change in uncertainty turns out to depend importantly on the inflation coefficient in the truncated Taylor rule.
+	%Let $\underline{\phi}_{\pi}$ and $\overline{\phi}_{\pi}$ as the following:
+	%	\begin{definition}
+	Let
+	\begin{align*}
+	\underline{\phi}_{\pi} \coloneqq \frac{2}{p_M - \kappa\sigma(1-p_M) + 1}\\
+	\overline{\phi}_{\pi} \coloneqq \frac{-2}{p_M + \kappa\sigma(1+p_M) - 1}
+	\end{align*}
+	%	\end{definition}
+	We will begin by analyzing the case in which $\phi_{\pi}\in(\underline{\phi}_{\pi},\overline{\phi}_{\pi})$, which we refer to as the standard case or the moderate-$\phi_{\pi}$ case. We will then move on to the case with $\phi_{\pi}\in(1,\underline{\phi}_{\pi})$ (the special case (I) or the low-$\phi_{\pi}$ case) and the case with $\phi_{\pi}\in(\overline{\phi}_{\pi},\infty)$ (the special case (II) or the high-$\phi_{\pi}$ case). These three cases we examine in the model with a three-state shock are robust to other shock specifications, as we will see in Section \ref{S:ModelAR1}. In Appendix \ref{SS:TwoInterestingCases}, we will examine two ``corner'' cases with $\phi_{\pi}=\underline{\phi}_{\pi}$ and $\phi_{\pi}=\overline{\phi}_{\pi}$ that are unique in the model with a three-state shock.
+
+	%	\subsubsection{Moderate-$\phi_{\pi}$ case (``standard'' case)}
+
+	\begin{restatable}{proposition}{proptwo}\label{prop:prop2}
+		[\textbf{Moderate-$\phi_{\pi}$ case}] If $\phi_{\pi}\in(\underline{\phi}_{\pi},\overline{\phi}_{\pi})$, then an increase in uncertainty ($c$):
+		\begin{itemize}
+			\item[(i)]  Increases inflation but leaves the policy rate unchanged in the deflationary equilibrium.
+			\item[(ii)] Decreases inflation and the policy rate in the target equilibrium.
+		\end{itemize}
+		There is a maximum level of uncertainty consistent with the equilibrium existence ($c_{max}$). When $c=c_{max}$, the target equilibrium and the deflationary equilibrium coincide (i.e., there is a unique equilibrium), and $\pi_{RSS}^{DE} = \pi_{RSS}^{TE} = \pi_{B}$.
+	\end{restatable}
+	\begin{proof}
+		A proof can be found in Appendix \ref{A:ThreeStateiid}.
+	\end{proof}
+	Figure \ref{fig:RAFR_Baseline} illustrates this proposition.
+
+	\begin{figure}[t]
+		\caption{Risky Steady States: $\phi_{\pi}\in(\underline{\phi}_{\pi},\overline{\phi}_{\pi})$}
+		\begin{center}
+			\begin{subfigure}[b]{0.499\textwidth}
+				\centering
+				\includegraphics[width=\textwidth]{Figs/Final/RAFR_cPHIpi_m.eps}
+				\caption{Model with Zero Inflation Target}
+				\label{fig:RAFR_Baseline}
+			\end{subfigure}
+			\begin{subfigure}[b]{0.49\textwidth}
+				\centering
+				%  \text{(7.c) E[ELB Duration]}
+				%  \text{with $\alpha_{1}=\alpha_{2} \in [0,1]$}
+				\includegraphics[width=\textwidth]{Figs/Final/RAFR_cPHIpi_m_pitarg.eps}
+				\caption{Model with Positive Inflation Target}
+				\label{fig:RAFR_Baseline_inftarg}
+			\end{subfigure}
+		\end{center}
+	\end{figure}
+
+	One implication of this proposition is that, if we allow for a non-zero inflation target and if the inflation target is sufficiently positive, the RSS inflation in the deflationary equilibrium can be positive. Formally,
+
+	\begin{restatable}{corollary}{corone}
+		Let $\phi_{\pi}\in(\underline{\phi}_{\pi},\overline{\phi}_{\pi})$ and $\pi^* > -r^*/(1-\phi_{\pi})$. Then there exists a shock $c_*$ such that RSS inflation and policy in the deflationary equilibrium are positive and zero.
+	\end{restatable}
+	\begin{proof}
+		See Appendix \ref{A:ThreeStateiid}.
+	\end{proof}
+
+	Figure \ref{fig:RAFR_Baseline_inftarg} illustrates this corollary.
+
+	%	\subsection{Results for low $\phi_{\pi}$ case (special case (I))}
+
+	\begin{restatable}{proposition}{propthree}\label{prop:prop3}
+		[\textbf{Low-$\phi_{\pi}$ case}] If $\phi_{\pi}\in(1,\underline{\phi}_{\pi})$, an increase in uncertainty (c):
+		\begin{itemize}
+			\item[(i)]  Has no effects on the RSS inflation and policy rate in the target equilibrium.
+			\item[(ii)]  Increases inflation in the deflationary equilibrium.
+			\item[(iii)] Leaves the policy rate unchanged for small values of $c$, but increase the policy rate if $c$ is sufficiently large  in the deflationary equilibrium.
+		\end{itemize}
+		There is a maximum level of uncertainty consistent with the equilibrium existence ($c_{max}$). When $c=c_{max}$, the target and deflationary equilibrium coincide (i.e., there is a unique equilibrium) and $\pi_{RSS}^{DE} = \pi_{RSS}^{TE} = \pi_{DSS}^{TE}$.
+	\end{restatable}
+	\begin{proof}
+		A proof can be found in Appendix \ref{A:ThreeStateiid}.
+	\end{proof}
+
+	Figure \ref{fig:RAFR_smallcPHIpi} illustrates this result. This result is interesting because a conventional wisdom is that the steady state policy rate is at the ZLB in the deflationary equilibrium. This result says that the conventional wisdom does not need to hold.
+
+	\begin{figure}[t]
+		\caption{Risky Steady States:  $\phi_{\pi}\in(1,\underline{\phi}_{\pi})$}
+		\begin{center}
+			\begin{subfigure}[b]{0.499\textwidth}
+				\centering
+				\includegraphics[width=\textwidth]{Figs/Final/RAFR_cPHIpi_l.eps}
+				\caption{Model with Zero Inflation Target}
+				\label{fig:RAFR_smallcPHIpi}
+			\end{subfigure}
+			\begin{subfigure}[b]{0.49\textwidth}
+				\centering
+				\includegraphics[width=\textwidth]{Figs/Final/RAFR_cPHIpi_l_pitarg.eps}
+				\caption{Model with Positive Inflation Target}
+				\label{fig:RAFR_smallcPHIpi_inftarg}
+			\end{subfigure}
+		\end{center}
+	\end{figure}
+
+	One straightforward implication of this result is that, if we allows for a non-zero inflation target and if the inflation target is sufficiently high, then the RSS inflation and policy rate can be both positive in the deflationary equilibrium.
+
+	\begin{restatable}{corollary}{cortwo}
+		Suppose $\phi_{\pi}\in(1,\underline{\phi}_{\pi})$. If $\pi^* > 0$, then there exists a shock $c_*$ such that RSS inflation and policy rates in the deflationary equilibrium are both positive.
+	\end{restatable}
+	\begin{proof}
+		See Appendix \ref{A:ThreeStateiid}.
+	\end{proof}
+
+	Figure \ref{fig:RAFR_smallcPHIpi_inftarg} illustrates this corollary.
+
+	%	\subsection{Results for high $\phi_{\pi}$ case (special case (II))}
+
+	\begin{restatable}{proposition}{propfour}\label{prop:prop4}
+		[\textbf{High-$\phi_{\pi}$ case}] If $\phi_{\pi}\in(\overline{\phi}_{\pi},\infty)$, an increase in uncertainty (c):
+		\begin{itemize}
+			\item[(i)] has no effects on the RSS inflation and policy rate in the deflationary equilibrium.
+			\item[(ii)]  Reduces inflation in the target equilibrium.
+			\item[(iii)] Reduces the policy rate for small values of $c$, but leaves the policy rate unchanged if $c$ is sufficiently large in the target equilibrium.
+		\end{itemize}
+		At the maximum level of uncertainty consistent with the equilibrium existence, $\pi_{RSS}^{DE} = \pi_{RSS}^{TE} = \pi_{DSS}^{DE}$
+	\end{restatable}
+	\begin{proof}
+		A proof can be found in Appendix \ref{A:ThreeStateiid}.
+	\end{proof}
+
+	Figure \ref{fig:RAFR_largecPHIpi} illustrates this result. This result is interesting because one would typically think that the RSS policy rate is positive in the target regime.
+
+	\begin{figure}[t]
+		\caption{Risky Steady States: $\phi_{\pi}\in(\overline{\phi}_{\pi},\infty)$}
+		\begin{center}
+			\begin{subfigure}[b]{0.499\textwidth}
+				\centering
+				\includegraphics[width=\textwidth]{Figs/Final/RAFR_cPHIpi_h.eps}
+				\caption{Model with Zero Inflation Target}
+				\label{fig:RAFR_largecPHIpi}
+			\end{subfigure}
+			\begin{subfigure}[b]{0.49\textwidth}
+				\centering
+				\includegraphics[width=\textwidth]{Figs/Final/RAFR_cPHIpi_h_pitarg.eps}
+				\caption{Model with Positive Inflation Target}
+				\label{fig:RAFR_largecPHIpi_inftarg}
+			\end{subfigure}
+		\end{center}
+	\end{figure}
+
+	One straightforward implication of this result is that, if we allow for a non-zero inflation target and if the inflation target is sufficiently large, the RSS inflation can positive in the target equilibrium, at the same time when the RSS policy rate is at the ZLB.
+
+	%	\begin{restatable}{corollary}{corthree}
+	%		Let $\phi_{\pi}\in(\overline{\phi}_{\pi},\infty)$. If the uncertainty is sufficiently high, the steady-state policy rate in the target equilibrium is at the ELB.
+	%	\end{restatable}
+
+	\begin{restatable}{corollary}{corfour}
+		Let $\pi^*> -r^*/(1-\phi_{\pi})$  and let $\phi_{\pi}\in(\overline{\phi}_{\pi},\infty)$. Then, there exists $c_*$ such that target equilibrium RSS inflation and policy rate are positive and zero, respectively.
+	\end{restatable}
+	\begin{proof}
+		A proof can be found in Appendix \ref{A:ThreeStateiid}.
+	\end{proof}
+
+	Figure \ref{fig:RAFR_largecPHIpi_inftarg} illustrates this corollary.
+
+	%	Appendix \ref{SS:TwoInterestingCases}
+
+	%==========================================================
+	%==========================================================
+	%==========================================================
+	\section{Model with an AR(1) shock}
+	\label{S:ModelAR1}
+
+	In this section, we relax our assumption about the demand shock and consider an AR(1) shock process:
+	\begin{equation}
+	%	\delta_t = (1-\rho)r^* + \rho r^{n}_{t-1} + \epsilon_{t}
+	\delta_t = \rho \delta_{t-1} + \epsilon_{t}
+	\end{equation}
+	%	We approximate the AR(1) process of the exogenous shock using Markov chains, via the Rouwenhorst approximation method. This allows us to determine the grid points and transition probabilities for the Markov chain.
+
+	A recursive equilibrium for this stylized, semi log-linear model is given by a set of policy functions $\{y(\cdot), \pi(\cdot), i(\cdot)\}$ that satisfies the Euler equation, the Phillips curve, and the truncated Taylor rule, as described in Section \ref{S:Model}. In solving the model, We approximate the AR(1) process of the exogenous shock using Markov chains via the Rouwenhorst approximation method. With this approximation, the model can be solved with linear algebra. Appendix \ref{A:SolutionMethod} describes the details of the solution algorithm.
+
+	Table \ref{tab:ParameterValues_AR1} lists the parameter values used for this exercise.
+	\begin{table}[!h]
+		{\small
+			\begin{center}
+				\caption{Parameter Values for the Stylized Model\label{tab:ParameterValues_AR1}}
+				\vspace{-1.5em}
+				\begin{tabular}{llc}
+					\multicolumn{3}{c}{}\\
+					Parameter & Description  & Parameter Value  \\
+					\hline
+					\hline
+					$\beta$ & Discount rate & $\frac{1}{1+0.0025}$ \\
+					$\sigma$ & Inverse intertemporal elasticity of substitution  & 1\\
+					$\kappa$ & Slope of Phillips Curve & 0.02 \\
+					%					$400\pi^*$ & Annualized Inflation target in the Taylor rule & 0\%\\
+					$400r^*$ & Annualized Natural Rate of Interest & 1\%\\
+					$\phi_{\pi}$ & Coefficient on inflation in the Taylor rule & $[2, 4, 10]$\\
+					$i_{ELB}$    & Effective lower bound & 0\\
+					\hline
+					$\rho$ & AR(1) coefficient for the demand shock & $0.80$ \\
+					$\sigma_{\epsilon}$ & standard deviation of shocks to demand shock & $[0, \sigma_{\epsilon}^{max}]$ \\
+					\hline
+					\hline
+				\end{tabular}
+			\end{center}
+		}
+		\vspace{-0.5em}
+	\end{table}
+
+	\subsection{Results for moderate $\phi_{\pi}$ case}
+
+	%		\begin{figure}[!ht]
+	%			\begin{center}
+	%				\caption{Risk-Adjusted Fisher Relation: $n$-state AR(1) shock}
+	%				\includegraphics[width = 10cm ]{Figs/Appendix/Fig7/AR1_RAFR.eps}\label{fig:RAFR_nar1}
+	%			\end{center}
+	%		\end{figure}
+	\begin{figure}[h]  %[!ht]
+		\begin{center}
+			\caption{Risky Steady States: Moderate $\phi_{\pi}$}
+			\includegraphics[width= 10cm]{Figs/Final/stylized_rouwenhorst_RAFR_cPHIpi_m.eps}
+			\label{fig:RAFR_nar1_moderate_cPHIpi}
+		\end{center}
+	\end{figure}
+
+	Figure \ref{fig:MomentsModeratecPHIpi} present how the RSS output, inflation, and policy rates, the expected value for output, inflation, and policy rates, and the probability of being at the ELB change as the degree of uncertainty increases in the economy. The solid black line represents values for the target equilibrium and the dashed black lines represent values for the deflationary equilibrium.
+
+	Consistent with the results in the model with the three-state shock, RSS inflation monotonically increases and RSS policy rate remains unchanged in the deflationary equilibrium as the amount of uncertainty realized in the economy increases. In the target equilibrium, RSS inflation and policy rate both monotonically decreasing as the amount of uncertainty in the economy increases. The risk-adjusted Fisher relation for the AR(1) shock is depicted in Figure \ref{fig:RAFR_nar1_moderate_cPHIpi}. %At the maximum level of uncertainty consistent with an equilibrium existence, the following holds: $\pi_{RSS}^{DE} = \pi_{RSS}^{TE} = \pi_{B}$.
+
+	\subsection{Results for low $\phi_{\pi}$ case}
+
+	\begin{figure}[h]  %[!ht]
+		\begin{center}
+			\caption{Risky Steady States: Low $\phi_{\pi}$}
+			\includegraphics[width= 10cm]{Figs/Final/stylized_rouwenhorst_RAFR_cPHIpi_l.eps}
+			\label{fig:RAFR_nar1_low_cPHIpi}
+		\end{center}
+	\end{figure}
+
+	Figure \ref{fig:MomentsLowcPHIpi} present how the RSS output, inflation, and policy rates, the expected value for output, inflation, and policy rates, and the probability of being at the ELB change as the degree of uncertainty increases in the economy. The solid black line represents values for the target equilibrium and the dashed black lines represent values for the deflationary equilibrium.
+
+	Consistent with the results in the model with the three-state shock, RSS inflation monotonically increases and RSS policy rate remains unchanged for small amounts of uncertainty and is monotonically increasing for sufficiently large amounts of uncertainty in the deflationary equilibrium. In the target equilibrium, RSS inflation monotonically decreases. However, the as the amount of uncertainty in the economy increases the policy rate for the target equilibrium does decrease slightly. This result is due a higher degree of curvature present in the risk-adjusted Fisher relation, that is not present in the three-state i.i.d. shock, which is depicted in Figure \ref{fig:RAFR_nar1_low_cPHIpi}. %At the maximum level of uncertainty consistent with an equilibrium existence, the following holds: $\pi_{B} < \pi_{RSS}^{DE} = \pi_{RSS}^{TE} < \pi_{DSS}^{TE}$.
+
+
+
+	%	\vspace{5cm}
+
+	\subsection{Results for high $\phi_{\pi}$ case}
+
+
+	\begin{figure}[h]  %[!ht]
+		\begin{center}
+			\caption{Risky Steady States: High $\phi_{\pi}$}
+			\includegraphics[width= 10cm]{Figs/Final/stylized_rouwenhorst_RAFR_cPHIpi_h.eps}
+			\label{fig:RAFR_nar1_high_cPHIpi}
+		\end{center}
+	\end{figure}
+
+
+	Figure \ref{fig:MomentsHighcPHIpi} present how the RSS output, inflation, and policy rates, the expected value for output, inflation, and policy rates, and the probability of being at the ELB change as the degree of uncertainty increases in the economy. The solid black line represents values for the target equilibrium and the dashed black lines represent values for the deflationary equilibrium.
+
+	Consistent with the results in the model with the three-state shock,target equilibrium RSS inflation monotonically decrease and RSS policy monotonically decreases for small amounts of uncertainty. For sufficiently large amounts of uncertainty, RSS policy rate remains unchanged. In the deflationary equilibrium, RSS inflation monotonically increases. However, the as the amount of uncertainty in the economy increases the policy rate for the target equilibrium does increase slightly. This result is due a higher degree of curvature present in the risk-adjusted Fisher relation, that is not present in the three-state i.i.d. shock, which is depicted in Figure \ref{fig:RAFR_nar1_high_cPHIpi}. %At the maximum level of uncertainty consistent with an equilibrium existence, the following holds: $\pi_{DSS}^{DE} < \pi_{RSS}^{DE} = \pi_{RSS}^{TE} < \pi_{B}$.
+
+	%	\vspace{40cm}
+
+	%==========================================================
+	%==========================================================
+	%==========================================================
+	%==========================================================
+	%==========================================================
+	%==========================================================
+	%==========================================================
+	%==========================================================
+	%========================================================== Discussion
+	%==========================================================
+	%==========================================================
+	%==========================================================
+	%==========================================================
+	%==========================================================
+	%==========================================================
+	%==========================================================
+	\newpage
+	\section{Discussion}
+	\label{S:Discussion}
+
+	\begin{itemize}
+		\item Relation with Mertens and Williams (2018)
+		\item Relation with Armenter (2017)
+		\item Relation with Nakata (2017, AEJM)
+		\item Relation with Hills, Nakata, and Schmidt (2018)
+	\end{itemize}
+
+	%==========================================================
+	%==========================================================
+	%==========================================================
+	%==========================================================
+	%==========================================================
+	%==========================================================
+	%==========================================================
+	%==========================================================
+	%========================================================== Conclusion
+	%==========================================================
+	%==========================================================
+	%==========================================================
+	%==========================================================
+	%==========================================================
+	%==========================================================
+	%==========================================================
+	\section{Conclusion}
+	\label{S:Conclusion}
+
+
+
+	\newpage
+	\bibliographystyle{econometrica}
+	\bibliography{All}
+
+
+	%==========================================================
+	%==========================================================
+	%==========================================================
+	%==========================================================
+	%==========================================================
+	%==========================================================
+	%==========================================================
+	%==========================================================
+	%==========================================================
+	%==========================================================
+	%==========================================================
+	%==========================================================
+	%==========================================================
+	%==========================================================
+	%==========================================================
+	%========================================================== Appendix
+	%==========================================================
+	%==========================================================
+	%==========================================================
+	%==========================================================
+	%==========================================================
+	%==========================================================
+	%==========================================================
+	%==========================================================
+	%==========================================================
+	%==========================================================
+	%==========================================================
+	%==========================================================
+	%==========================================================
+	%==========================================================
+	\newpage
+	\appendix
+	\setcounter{equation}{0}
+	\renewcommand{\theequation}{\thesection\arabic{equation}}
+	\begin{center}
+		\textbf{\LARGE{Technical Appendix for Online Publication}}
+	\end{center}
+
+	\begin{singlespace}
+
+		\vspace{2em}
+		\noindent This technical appendix is organized as follows:
+		%		\begin{itemize}
+		%\item Section~\ref{A:pTpD} analyzes how $p_{T}$ and $p_{D}$ affect the allocations in the recursive sunspot equilibrium.
+		%\item Section~\ref{A:SolutionAlgorithm} explains the solution algorithm for the empirical model.
+		%		\end{itemize}
+
+		\section{Three-State i.i.d. Shock Model}\label{A:ThreeStateiid}
+		The model is given by the following set of equations:
+
+		\begin{align}
+		& y_{t} = \mathbb{E}_t[y_{t+1}] - \sigma\left[\hat{i}_t - \mathbb{E}_t[\hat{\pi}_{t+1}]-\delta_t\right] \label{eq:EE_pi*}\\
+		& \hat{\pi}_{t} = \kappa y_t + \beta\mathbb{E}_t[\hat{\pi}_{t+1}]\label{eq:PC_pi*}\\
+		& \hat{\pi}_t = \pi_t - \pi^* \label{eq:pidev_pi*}\\
+		& \hat{i}_t = i_t - i_{DSS} \label{eq:idev_pi*}\\
+		& i_t = \text{max}\left[0,r^* + \pi^* + \phi_{\pi}(\pi_t - \pi^*)\right]\label{eq:TR_pi*}\\
+		& i_{DSS} = r^* + \pi^* \label{eq:idss_pi*}
+		\end{align}
+		\noindent
+		Equation (\ref{eq:EE_pi*}) is the consumption Euler equation, equation (\ref{eq:PC_pi*}) is the standard New Keynesian Phillips Curve, and equation (\ref{eq:TR_pi*}) is the interest-rate feedback rule followed by the central bank. Equation (\ref{eq:pidev_pi*}) describes the deviation of inflation from its target and equation (\ref{eq:idev_pi*}) describes deviations of the policy rate from the DSS policy rate, described by equation (\ref{eq:idss_pi*}).
+
+		The model presented above is a more general version of the baseline model in the main body of the text. To see this, set $\pi^* = 0$; the model that allows for an inflation target simplifies to the baseline model.
+
+		\subsection{Algebraic Derivation of Risk Adjusted Fisher Relation}
+
+		\begin{table}
+			\centering
+			\begin{tabular}{ccc}
+				\hline
+				\hline
+				States where & States where  & Certainty  \\
+				ELB Binds & ELB Does Not Bind & Equivalence?\\
+				\hline
+				L, M, H & None & Yes\\
+				L, M & H & No \\
+				L & M, H & No \\
+				None & L, M, H & Yes\\
+				\hline
+				\hline
+			\end{tabular}
+			\caption{Certainty Equivalence}
+			\label{t:Uncertainty}
+		\end{table}
+
+		%	As seen in figure \ref{fig:RAFR}, there are thee lines that correspond to important points of the risk-adjusted Fisher relation: The point where the risk-adjusted Fisher relation diverges from the standard Fisher relation from below, the point where the risk-adjusted Fisher relation diverges from the standard Fisher relation from above, and the point where those two lines meet. We now provide formal definitions for these lines.
+
+		We present the full algebraic derivation of the piecewise risk-adjusted Fisher relation. In our three-period model, there are two cases to consider:
+		\begin{enumerate}
+			\item[(i)] the risk-adjusted Fisher relation when the ELB binds in states $L$ and $M$.
+			\item[(ii)] the risk-adjusted Fisher relation when the ELB binds in state $L$ only.
+		\end{enumerate}
+		As discussed in Section \ref{S:Model}, given the \textit{candidate} $\pi_{RSS}$, we need to compute the risk-adjustment term based on \textit{hypothetical} policy functions satisfying the following conditions: (i) $\pi_{\pi_{RSS}}(\delta=0)=\pi_{RSS}$, (ii) the truncated Taylor rule, (iii) the Phillips curve,  and (iv) \textit{demeaned} Euler equations. That is,
+
+		\begin{align}
+		y_{H}-y_{M} & = - \sigma\left[i_{H} - i_M - \delta_{H}\right] \label{eq:EE_H_appx} \\
+		y_{L}-y_{M} & = - \sigma\left[i_{L} - i_M - \delta_{L}\right] \label{eq:EE_L_appx}\\
+		\pi_{H} - \pi^* & = \kappa y_{H} + \beta\mathbb{E}[\pi_{t+1} - \pi^*] \label{eq:PC_H_appx}\\
+		\pi_{M} - \pi^* & = \kappa y_{M} + \beta\mathbb{E}[\pi_{t+1} - \pi^*] \label{eq:PC_M_appx}\\
+		\pi_{L} - \pi^* & = \kappa y_{L} + \beta\mathbb{E}[\pi_{t+1} - \pi^*] \label{eq:PC_L_appx}\\
+		i_{H} & = \text{max}\left[0, r^* + \pi^* +  \phi_{\pi}(\pi_{H} - \pi^*)\right] \label{eq:TR_H_appx}\\
+		i_{M} & = \text{max}\left[0, r^* + \pi^* + \phi_{\pi}(\pi_{M} - \pi^*)\right] \label{eq:TR_M_appx}\\
+		i_{L} & = \text{max}\left[0, r^* + \pi^* + \phi_{\pi}(\pi_{L} - \pi^*)\right] \label{eq:TR_L_appx}
+		\end{align}
+		where $\mathbb{E}[x_{t+1}] \coloneqq \frac{1-p_M}{2}x_H + p_Mx_M + \frac{1-p_M}{2}x_L$ and $x\in\{y,\pi\}$. The following system of equations is obtained by substituting equation (\ref{eq:idev_pi*}) and (\ref{eq:idss_pi*}) into equation (\ref{eq:EE_pi*}) and  substituting equation (\ref{eq:pidev_pi*}) into equation (\ref{eq:EE_pi*}) and equation (\ref{eq:PC_pi*}):
+
+		\subsubsection{ELB Binds in States $L$ and $M$}
+
+		We first solve for the hypothetical policy functions consistent with the candidate $\pi_{RSS}$ when the implied policy rates in the low and middle states are zero, but the implied policy rate in the high state is positive. We will denote the hypothetical policy functions in this case with a LM-superscript. Without loss of generality, notice that the middle state of any given policy function $x_M \equiv x_{RSS}$ by construction of the value the shocks take in middle state.
+
+		Solving for the hypothetical policy functions consistent with conditions (i - iv) outlined above is done as follows: (i) condition (i) is satisfied by assumption as we pick the candidate $\pi_{RSS}$, which by construction satisfies $\pi_{\pi_{RSS}}(\delta=0)$; (ii) condition (ii) is satisfied by assumption because we are only solving for policy functions consistent with the candidate $\pi_{RSS}$ when the implied policy rates in the low and middle states are zero, but the implied policy rate in the high state is positive. Thus, it suffices to show that only conditions (iii - iv) hold to compute the hypothetical hypothetical policy functions and the risk-adjustment term.
+
+		Conditions (iii - iv) are confirmed in the following steps: (1) rewrite the demeaned Euler equations as a function of $y_{RSS}$, (2) express Phillips Curve equations as a function of the candidate $\pi_{RSS}$, (3) show that inflation expectations is a function of the candidate $\pi_{RSS}$, (4) show that  $y_{RSS}$ and output expectations are a function of the candidate $\pi_{RSS}$. Then, by construction, for any candidate $\pi_{RSS} = \pi_{\pi_{RSS}}(\delta=0)$, the hypothetical policy functions consistent with conditions (i-iv) can be obtained. Once obtained, it is straightforward to compute the risk-adjustment term. %will show that all policy functions, and thus all expectations, can be written as a function of $\pi_M$. We assume that $i_L = 0$ and $i_M = 0$.
+		\\
+		\noindent \textbf{Step 1: rewrite the demeaned Euler equations as a function of $y_{RSS}$}\\
+		Begin by noticing that the demeaned Euler equations, equations (\ref{eq:EE_H_appx}) and (\ref{eq:EE_L_appx}), can be rewritten as functions of $y_M$:
+		\begin{align}
+		& y^{LM}_{H} = g_1(y^{LM}_{RSS}) = y^{LM}_{RSS} - \sigma\left(r^* + \pi^* + \phi_{\pi}(\pi^{LM}_H - \pi^*) - \delta_{H}\right) \label{eq:dmeanedEE_yLMH} \\
+		& y^{LM}_{L} = g_2(y^{LM}_{RSS})= y^{LM}_{RSS} + \sigma \delta_{L} \label{eq:dmeanedEE_yLML}
+		\end{align}
+		\\
+		\noindent \textbf{Step 2: express Phillips Curve equations as a function of the candidate $\pi_{RSS}$}\\
+		Given our simplified demeaned Euler equations (equations \ref{eq:dmeanedEE_yLMH} - \ref{eq:dmeanedEE_yLML}), we will simplify the Phillips curves. If we rearrange equation (\ref{eq:PC_M_appx}) in the following way
+		\begin{align}
+		y_{RSS}^{LM} = \frac{\pi_{RSS} - \pi^* - \beta\mathbb{E}^{LM}\left[\pi_{\pi_{RSS}}(\delta')|\delta=0 - \pi^*\right]}{\kappa} \label{eq:yLMRSS}
+		\end{align}
+		and substitute this expression into equations (\ref{eq:PC_H_appx}) and (\ref{eq:PC_L_appx}), then these equations can be rewritten as functions of $\pi_{RSS}$:
+		\begin{align}
+		& \pi^{LM}_{H} = f_1(\pi_{RSS}) =  \frac{\pi_{RSS} -\kappa\sigma(r^* + \pi^*(1-\phi_{\pi})- \delta_{H})}{1+\kappa\sigma\phi_{\pi}}\\
+		& \pi^{LM}_{L} = f_2(\pi^{LM}_{RSS}) = \pi_{RSS} +\kappa\sigma \delta_{L}
+		\end{align}
+		\\
+		\noindent \textbf{Step 3: show that inflation expectations is a function of the candidate $\pi_{RSS}$}\\
+		Notice $\mathbb{E}^{LM}[\pi_{\pi_{RSS}}(\delta')|\delta=0]$ is a function of $\pi_{RSS}$ since
+		\begin{align*}
+		\mathbb{E}^{LM}[\pi_{\pi_{RSS}}(\delta')|\delta=0] \coloneqq& \frac{1-p_M}{2}\pi^{LM}_H + p_{M}\pi_{RSS} + \frac{1-p_M}{2}\pi^{LM}_L \\
+		=& \frac{1-p_M}{2}f_1(\pi_{RSS}) + p_{M}\pi_{RSS} +  \frac{1-p_M}{2}f_2(\pi_{RSS}) \\
+		=& h_1(\pi_{RSS})
+		\end{align*}
+		This result confirms that condition (iii) holds by construction.
+		\\
+		\noindent \textbf{Step 4: show that  $y_{RSS}$ and output expectations are a function of the candidate $\pi_{RSS}$}\\
+		Given equation (\ref{eq:yLMRSS}) and the result from Step 3 $y^{LM}_{RSS}$ can be written as a function of the candidate $\pi_{RSS}$: $g_3(\pi_{RSS})$. To see $\mathbb{E}^{LM}[y_{\pi_{RSS}}(\delta')|\delta=0]$ function of $\pi_{RSS}$
+		\begin{align*}
+		\mathbb{E}^{LM}[y_{y_{RSS}}(\delta')|\delta=0] \coloneqq& \frac{1-p_M}{2}y^{LM}_H + p_{M}y_{RSS} + \frac{1-p_M}{2}y^{LM}_L \\
+		=& \frac{1-p_M}{2}g_1(y_{RSS}) + p_{M}y_{RSS} +  \frac{1-p_M}{2}g_2(y_{RSS}) \\
+		=& \frac{1-p_M}{2}g_1(f_1(\pi_{RSS})) + p_{M}g_3(\pi_{RSS}) +  \frac{1-p_M}{2}g_2(f_2(\pi_{RSS})) \\
+		=& h_2(\pi_{RSS})
+		\end{align*}
+		This result confirms that condition (iv) holds by construction.
+
+		Thus, for $\pi_{LB} \le \pi_{RSS} \le \pi_B$, the risk adjusted Fisher relation can be written in the following way:
+		\begin{align}
+		i_{RSS} = r^* &+ \pi_{RSS} + \sigma^{-1}\left(\mathbb{E}^{LM}[y_{\pi_{RSS}}(\delta')|\delta=0] - y_{RSS}^{LM}\right) \nonumber \\
+		&+ \left(\mathbb{E}^{LM}[\pi_{\pi_{RSS}}(\delta')|\delta=0] - \pi_{RSS}^{LM}\right)
+		\end{align}
+
+		\subsubsection{ELB Binds in States $L$ and $M$}
+
+		We now solve for the hypothetical policy functions consistent with the candidate $\pi_{RSS}$ when the implied policy rate in the low state is zero, but the implied policy rates in the middle and high states are positive. We will denote the hypothetical policy functions in this case with a L-superscript.
+
+		Similar to the case above, solving for the hypothetical policy functions are required to be consistent with conditions (i - iv). Conditions (i-iv) hold for because: (i) condition (i) is satisfied by assumption as we pick the candidate $\pi_{RSS}$, which by construction satisfies $\pi_{\pi_{RSS}}(\delta=0)$; (ii) condition (ii) is satisfied by assumption because we are only solving for policy functions consistent with the candidate $\pi_{RSS}$ when the implied policy rate in the low state is zero, but the implied policy rates in the middle and high states are positive. Thus, it suffices to show that only conditions (iii - iv) hold to compute the hypothetical hypothetical policy functions and the risk-adjustment term.
+
+		Again, conditions (iii - iv) are confirmed in the following steps: (1) rewrite the demeaned Euler equations as a function of $y_{RSS}$, (2) express Phillips Curve equations as a function of the candidate $\pi_{RSS}$, (3) show that inflation expectations is a function of the candidate $\pi_{RSS}$, (4) show that  $y_{RSS}$ and output expectations are a function of the candidate $\pi_{RSS}$. Then, by construction, for any candidate $\pi_{RSS} = \pi_{\pi_{RSS}}(\delta=0)$, the hypothetical policy functions consistent with conditions (i-iv) can be obtained. Once obtained, it is straightforward to compute the risk-adjustment term. %will show that all policy functions, and thus all expectations, can be written as a function of $\pi_M$. We assume that $i_L = 0$ and $i_M = 0$.
+		\\
+		\noindent \textbf{Step 1: rewrite the demeaned Euler equations as a function of $y_{RSS}$}\\
+		Begin by noticing that the demeaned Euler equations, equations (\ref{eq:EE_H_appx}) and (\ref{eq:EE_L_appx}), can be rewritten as functions of $y_{RSS}$:
+		\begin{align}
+		& y^{L}_{H} = g_1(y^{L}_{RSS}) = y^{L}_{RSS} - \sigma\left(\phi_{\pi}(\pi_{RSS} - \pi_{H}) + \delta_{H}\right) \label{eq:dmeanedEE_yLH} \\
+		& y^{L}_{L} = g_2(y^{L}_{RSS})= y^{L}_{RSS} + \sigma\left(\phi_{\pi}(\pi_{RSS} - \pi^*) + r^* + \pi^* + \delta_{L} \right)  \label{eq:dmeanedEE_yLL}
+		\end{align}
+		\\
+		\noindent \textbf{Step 2: express Phillips Curve equations as a function of the candidate $\pi_{RSS}$}\\
+		Given our simplified demeaned Euler equations (equations \ref{eq:dmeanedEE_yLH} - \ref{eq:dmeanedEE_yLL}), we will simplify the Phillips curves. If we rearrange equation (\ref{eq:PC_M_appx}) in the following way
+		\begin{align}
+		y_{RSS}^{L} = \frac{\pi_{RSS} - \pi^* - \beta\mathbb{E}^{L}\left[\pi_{\pi_{RSS}}(\delta')|\delta=0 - \pi^*\right]}{\kappa} \label{eq:yLRSS}
+		\end{align}
+		and substitute this expression into equations (\ref{eq:PC_H_appx}) and (\ref{eq:PC_L_appx}), then these equations can be rewritten as functions of $\pi_{RSS}$:
+		\begin{align}
+		& \pi^{L}_{H} = f_1(\pi_{RSS}) =  \frac{\pi_{RSS}(1+ \kappa\sigma\phi_{\pi}) + \kappa\sigma \delta_{H}}{1+\kappa\sigma\phi_{\pi}}\\
+		& \pi^{L}_{L} = f_2(\pi^{L}_{RSS}) = \pi_{RSS}(1+\kappa\sigma\phi_{\pi}) + \kappa\sigma(-\phi_{\pi}\pi^* + r^* + \pi^* + \delta_{L})
+		\end{align}
+		\\
+		\noindent \textbf{Step 3: show that inflation expectations is a function of the candidate $\pi_{RSS}$}\\
+		Notice $\mathbb{E}^{L}[\pi_{\pi_{RSS}}(\delta')|\delta=0]$ is a function of $\pi_{RSS}$ since
+		\begin{align*}
+		\mathbb{E}^{L}[\pi_{\pi_{RSS}}(\delta')|\delta=0] \coloneqq& \frac{1-p_M}{2}\pi^{L}_H + p_{M}\pi_{RSS} + \frac{1-p_M}{2}\pi^{L}_L \\
+		=& \frac{1-p_M}{2}f_1(\pi_{RSS}) + p_{M}\pi_{RSS} +  \frac{1-p_M}{2}f_2(\pi_{RSS}) \\
+		=& h_1(\pi_{RSS})
+		\end{align*}
+		This result confirms that condition (iii) holds by construction.
+		\\
+		\noindent \textbf{Step 4: show that  $y_{RSS}$ and output expectations are a function of the candidate $\pi_{RSS}$}\\
+		Given equation (\ref{eq:yLRSS}) and the result from Step 3 $y^{L}_{RSS}$ can be written as a function of the candidate $\pi_{RSS}$: $g_3(\pi_{RSS})$. To see $\mathbb{E}^{L}[y_{\pi_{RSS}}(\delta')|\delta=0]$ function of $\pi_{RSS}$
+		\begin{align*}
+		\mathbb{E}^{L}[y_{y_{RSS}}(\delta')|\delta=0] \coloneqq& \frac{1-p_M}{2}y^{L}_H + p_{M}y_{RSS} + \frac{1-p_M}{2}y^{L}_L \\
+		=& \frac{1-p_M}{2}g_1(y_{RSS}) + p_{M}y_{RSS} +  \frac{1-p_M}{2}g_2(y_{RSS}) \\
+		=& \frac{1-p_M}{2}g_1(f_1(\pi_{RSS})) + p_{M}g_3(\pi_{RSS}) +  \frac{1-p_M}{2}g_2(f_2(\pi_{RSS})) \\
+		=& h_2(\pi_{RSS})
+		\end{align*}
+		This result confirms that condition (iv) holds by construction.
+
+		Thus, for $\pi_{B} \le \pi_{RSS} \le \pi_{UB}$, the risk adjusted Fisher relation can be written in the following way:
+		\begin{align}
+		i_{RSS} = r^* &+ \pi_{RSS} + \sigma^{-1}\left(\mathbb{E}^{L}[y_{\pi_{RSS}}(\delta')|\delta=0] - y_{RSS}^{L}\right) \nonumber \\
+		&+ \left(\mathbb{E}^{L}[\pi_{\pi_{RSS}}(\delta')|\delta=0] - \pi_{RSS}^{L}\right)
+		\end{align}
+
+		\subsection{Analytical results from a model with a three-state shock}
+		\label{S:AnalyticalResults}
+
+		\subsubsection{Preliminary results}
+		\propone*
+
+		\begin{proof}
+			The algebraic derivations can be found in the section above.
+			%			Observe that the risk-adjusted Fisher relation can be written as a piecewise function:
+			%			\begin{align}
+			%			i_M =
+			%			\begin{cases}
+			%			r^* + \pi_M & \text{if } \pi_M < \pi_{LB}\\
+			%			r^* + \pi_M + \sigma^{-1}\left(\mathbb{E}^{LM}[y_{t+1}] - y_M^{LM}\right) + \left(\mathbb{E}^{LM}[\pi_{t+1}] - \pi_M\right) & \text{if } \pi_{LB} \le \pi_M \le \pi_{B}\\
+			%			r^* + \pi_M + \sigma^{-1}\left(\mathbb{E}^{L}[y_{t+1}] - y_M^{L}\right) + \left(\mathbb{E}^{L}[\pi_{t+1}] - \pi_M\right) & \text{if } \pi_{B} \le \pi_M \le \pi_{UB}\\
+			%			r^* + \pi_M & \text{if } \pi_{UB} < \pi_M
+			%			\end{cases}
+			%			\end{align}
+			%			Where $x^{s}$, $s\in\{LM, L\}$ denotes the policy functions conditional on which states the ELB binds in. All policy functions and expectations are functions of $\pi_M$ and thus $i_M$ is a function of $\pi_M$.
+		\end{proof}
+
+		\begin{proposition}\label{prop:cSHOCKS}
+			There exists shock sizes $c_{LB}$, $c_{UB}$, and $c_{B}$ such that
+			\begin{enumerate}
+				\item [i.] If $c = c_{LB}$ then $\pi_{LB} = \pi^{RSS}_{DE} = \pi^{DSS}_{DE}$
+				\item [ii.] If $c = c_{UB}$ then $\pi_{UB} = \pi^{RSS}_{TE} = \pi^{DSS}_{TE}$
+				\item [iii.] If $c = c_{B}$ then $\pi^{RSS}_{TE} = \pi_B$ $\lor$ $\pi_{RSS}^{DE} = \pi_B$
+			\end{enumerate}
+		\end{proposition}
+		\begin{proof}
+			If we set $\pi_{LB} = \pi^{DSS}_{DE}$ and $\pi_{UB} = \pi^{DSS}_{TE}$ and solve for $c$, we have
+			\begin{align*}
+			c_{LB} = c = &\frac{(\pi^*+r^* )(\phi_{\pi} - 1)}{\kappa\phi_{\pi}\sigma}\\
+			c_{UB} = c = &\frac{(\pi^* + r^*) (\kappa\phi_{\pi}\sigma  + 1)}{\kappa\phi_{\pi}\sigma}
+			\end{align*}
+			To find the point where the RSS is equal to $\pi_{B} $, we set the two piecewise equations of the risk-adjusted Fisher relation equal to each other:
+			\begin{align*}
+			%			r^* + \pi_M + \sigma^{-1}\left(\mathbb{E}^{LM}[y_{t+1}] - y_M^{LM}\right) + \left(\mathbb{E}^{LM}[\pi_{t+1}] - \pi_M\right) \\
+			%			= r^* + \pi_M + \sigma^{-1}\left(\mathbb{E}^{L}[y_{t+1}] - y_M^{L}\right) + \left(\mathbb{E}^{L}[\pi_{t+1}] - \pi_M\right)
+			r^* + \alpha_1\pi_{RSS} = r^* + \alpha_2\pi_{RSS}
+			\end{align*}
+			The intersection of these two lines is at $\pi_{B}$. If we isolate for $c$, when we get:
+			\begin{align*}
+			c_{B} = c = &-\frac{2(\pi^* + r^*)(\phi_{\pi}-1)(\kappa\sigma\phi_{\pi}+1)} {\kappa\phi_{\pi}^2\sigma(\kappa\sigma+1)(p_M-1)}
+			\end{align*}
+		\end{proof}
+		\begin{proposition}
+			There does not exist a shock size $c_{LG} > \text{max}\left\{c_{LB}, c_{UB}, c_{B}\right\}$
+		\end{proposition}
+		\begin{proof}
+			Assume, by way of contradiction, that such a shock exists. This would imply that the risk-adjusted Fisher relation does not come into contact with the Taylor rule, which violates our definition of the RSS.
+		\end{proof}
+
+		The above propositions provide a foundation for some of the analytical results to follow. Below, we provide some further results on $\text{max}\left\{c_{LB}, c_{UB}, c_{B}\right\}$ and the relationship to $\phi_{\pi}$. Recall the following definition:
+		\begin{definition}
+			Let
+			\begin{align*}
+			\underline{\phi}_{\pi} \coloneqq \frac{2}{p_M - \kappa\sigma(1-p_M) + 1}\\
+			\overline{\phi}_{\pi} \coloneqq \frac{-2}{p_M + \kappa\sigma(1+p_M) - 1}
+			\end{align*}
+		\end{definition}
+		\begin{proposition}\label{prop:cPHIpiub}
+			Let $\phi_{\pi}\in(1,\underline{\phi}_{\pi})$. Then $c_{UB} = \text{max}\left\{c_{LB}, c_{UB}, c_{B}\right\}$.
+		\end{proposition}
+		\begin{proof}
+			To begin, observe that if we evaluate $c_{LB}$, $c_{UB}$, and $c_{B}$ at $\underline{\phi}_{\pi}$ we get:
+			\begin{align*}
+			c_{LB} = -\frac{(\pi^* + r^*)(\kappa\sigma + 1)(p_M -1)}{2\kappa\sigma}\\
+			c_{UB} =\frac{(\pi^* + r^*)(\kappa\sigma + 1)(p_M +1)}{2\kappa\sigma}\\
+			c_{B} = \frac{(\pi^* + r^*)(\kappa\sigma + 1)(p_M +1)}{2\kappa\sigma}
+			\end{align*}
+			First, we will show that $c_{UB} > c_{LB}$.
+			Assume, by way of contradiction, not.  Then we have the following inequality:
+			\begin{align*}
+			\frac{(\pi^* + r^*)(\kappa\sigma + 1)(p_M -1)}{2\kappa\sigma} &< -\frac{(\pi^* + r^*)(\kappa\sigma + 1)(p_M +1)}{2\kappa\sigma}\\
+			(\pi^* + r^*)(\kappa\sigma + 1)(p_M -1) &< -(\pi^* + r^*)(\kappa\sigma + 1)(p_M +1)\\
+			(p_M -1) &< -(p_M +1)
+			\end{align*}
+			This final statement implies that $0>2p_M$, implying that $p_M<0$. This yields a contradiction since $p_M>0$. To show that  $c_{UB} > c_{LB}$ for $\phi_{\pi}\in(1,\underline{\phi}_{\pi})$, we examine the derivatives $\underline{\phi}_{\pi}$:
+			\begin{align*}
+			\frac{\partial c_{UB}}{\partial \phi_{\pi}} &= -\frac{(\pi^* + r^*)(p_M-\kappa\sigma(1+p_M)+1)^2}{4\kappa\sigma} < 0\\
+			\frac{\partial c_{LB}}{\partial \phi_{\pi}} &= \frac{(\pi^* + r^*)(p_M-\kappa\sigma(1+p_M)+1)^2}{4\kappa\sigma} > 0\\
+			\end{align*}
+			Thus, for a decrease in  $\phi_{\pi}$, $c_{UB}$ continues to get larger than $c_{LB}$.
+			Next, observe that $c_{UB} = c_{B}$ at $\underline{\phi}_{\pi})$.
+
+			To see that $c_{UB} > c_{B}$, we again look at the derivatives of $c_{UB}$ and $c_{B}$ evaluated at $\underline{\phi}_{\pi})$:
+			\begin{align*}
+			\frac{\partial c_{UB}}{\partial \phi_{\pi}} &= -\frac{(\pi^* + r^*)(p_M-\kappa\sigma(1+p_M)+1)^2}{4\kappa\sigma} < 0\\
+			\frac{\partial c_{B}}{\partial \phi_{\pi}} &= -\frac{(\pi^* + r^*)p_M(p_M-\kappa\sigma(1+p_M)+1)^2}{2\kappa\sigma(p_M -1)} > 0\\
+			\end{align*}
+			Thus, for a decrease in  $\phi_{\pi}$, $c_{UB}$ gets larger than $c_{B}$.
+		\end{proof}
+		\begin{proposition}\label{prop:cPHIpilb}
+			Let $\phi_{\pi}\in(\overline{\phi}_{\pi},\infty)$. Then $c_{LB} = \text{max}\left\{c_{LB}, c_{UB}, c_{B}\right\}$.
+		\end{proposition}
+		\begin{proof}
+			To begin, observe that if we evaluate $c_{LB}$, $c_{UB}$, and $c_{B}$ at $\underline{\phi}_{\pi}$ we get:
+			\begin{align*}
+			c_{LB} =\frac{(\pi^* + r^*)(\kappa\sigma + 1)(p_M +1)}{2\kappa\sigma}\\
+			c_{UB} =-\frac{(\pi^* + r^*)(\kappa\sigma + 1)(p_M -1)}{2\kappa\sigma}\\
+			c_{B} = \frac{(\pi^* + r^*)(\kappa\sigma + 1)(p_M +1)}{2\kappa\sigma}
+			\end{align*}
+			First, we will show that $c_{LB} > c_{UB}$.
+			Assume, by way of contradiction, not.  Then we have the following inequality:
+			\begin{align*}
+			-\frac{(\pi^* + r^*)(\kappa\sigma + 1)(p_M +1)}{2\kappa\sigma} &< \frac{(\pi^* + r^*)(\kappa\sigma + 1)(p_M -1)}{2\kappa\sigma}\\
+			-(\pi^* + r^*)(\kappa\sigma + 1)(p_M +1) &< (\pi^* + r^*)(\kappa\sigma + 1)(p_M -1)\\
+			(p_M -1) &< -(p_M +1)
+			\end{align*}
+			This final statement implies that $0>2p_M$, implying that $p_M<0$. This yields a contradiction since $p_M>0$ To show that  $c_{LB} > c_{UB}$ for $\phi_{\pi}\in(\overline{\phi}_{\pi},\infty)$, we examine the derivatives $\overline{\phi}_{\pi}$:
+			\begin{align*}
+			\frac{\partial c_{UB}}{\partial \phi_{\pi}} &= -\frac{(\pi^* + r^*)(p_M-\kappa\sigma(1+p_M)+1)^2}{4\kappa\sigma} < 0\\
+			\frac{\partial c_{LB}}{\partial \phi_{\pi}} &= \frac{(\pi^* + r^*)(p_M-\kappa\sigma(1+p_M)+1)^2}{4\kappa\sigma} > 0\\
+			\end{align*}
+			Thus, for an increase in  $\phi_{\pi}$, $c_{LB}$ continues to get larger than $c_{UB}$.
+			Next, observe that $c_{LB} = c_{B}$ at $\overline{\phi}_{\pi})$.
+
+			To see that $c_{LB} > c_{B}$, we again look at the derivatives of $c_{LB}$ and $c_{B}$ evaluated at $\underline{\phi}_{\pi})$:
+			\begin{align*}
+			\frac{\partial c_{LB}}{\partial \phi_{\pi}} &= \frac{(\pi^* + r^*)(p_M-\kappa\sigma(1+p_M)+1)^2}{4\kappa\sigma} > 0\\
+			\frac{\partial c_{B}}{\partial \phi_{\pi}} &= \frac{(\pi^* + r^*)p_M(p_M-\kappa\sigma(1+p_M)+1)^2}{2\kappa\sigma(p_M -1)} < 0
+			\end{align*}
+			Thus, for an increase in  $\phi_{\pi}$, $c_{LB}$ gets larger than $c_{B}$.
+		\end{proof}
+		\begin{proposition}\label{prop:cPHIpilbcPHIpiub}
+			Let $\phi_{\pi}\in(\underline{\phi}_{\pi},\overline{\phi}_{\pi})$. Then $c_{B} = \text{max}\left\{c_{LB}, c_{UB}, c_{B}\right\}$.
+		\end{proposition}
+		\begin{proof}
+			This follows directly from Propositions \ref{prop:cPHIpiub} and \ref{prop:cPHIpilb}.
+			To see that $c_{LB} < c_{B}$ recall that when $\phi_{\pi} = \overline{\phi}_{\pi}$,  $c_{LB} = c_{B}$ and the following relation holds:
+			\begin{align*}
+			\frac{\partial c_{LB}}{\partial \phi_{\pi}} &> 0\\
+			\frac{\partial c_{B}}{\partial \phi_{\pi}} & < 0
+			\end{align*}
+			Thus for a decrease in $\phi_{\pi}$ we have $c_{LB} < c_{B}$.
+
+			To see that $c_{UB} < c_{B}$ recall that when $\phi_{\pi} = \underline{\phi}_{\pi}$,  $c_{UB} = c_{B}$ and the following relation holds:
+			\begin{align*}
+			\frac{\partial c_{UB}}{\partial \phi_{\pi}} &< 0\\
+			\frac{\partial c_{B}}{\partial \phi_{\pi}} & > 0
+			\end{align*}
+			Thus for an increase in $\phi_{\pi}$ we have $c_{UB} < c_{B}$.
+		\end{proof}
+		\begin{proposition}\label{prop:pi_tr_zero}
+			Let $\phi_{\pi}\in(1,\underline{\phi}_{\pi})$. Then $\frac{\partial\pi_{RSS}^{TE}}{\partial c} = 0 $
+		\end{proposition}
+		\begin{proof}
+			By proposition \ref{prop:cPHIpiub} we have that
+			\begin{align*}
+			c_{UB} = \text{max}\left\{c_{LB}, c_{UB}, c_{B}\right\}
+			\end{align*}
+			Then, by Proposition \ref{prop:cSHOCKS}, for all shocks $c\le c_{UB}$, we have $\pi_{UB} \le \pi_{RSS}^{TE}$ and that $\pi_{RSS}^{TE} = \pi_{DSS}^{TE}$. Since no larger shock can exist, it follows that
+			\begin{align*}
+			\frac{\partial\pi_{RSS}^{TE}}{\partial c} = 0
+			\end{align*}
+		\end{proof}
+		\begin{proposition}\label{prop:pi_dr_zero}
+			Let $\phi_{\pi}\in(\overline{\phi}_{\pi},\infty)$. Then $\frac{\partial\pi_{RSS}^{DE}}{\partial c} = 0 $
+		\end{proposition}
+		\begin{proof}
+			By proposition \ref{prop:cPHIpilb} we have that
+			\begin{align*}
+			c_{LB} = \text{max}\left\{c_{LB}, c_{UB}, c_{B}\right\}
+			\end{align*}
+			Then, by Proposition \ref{prop:cSHOCKS}, for all shocks $c\le c_{LB}$, we have $\pi_{RSS}^{DE}\le\pi_{LB} $ and that $\pi_{RSS}^{DE} = \pi_{DSS}^{DE}$. Since no larger shock can exist, it follows that
+			\begin{align*}
+			\frac{\partial\pi_{RSS}^{DE}}{\partial c} = 0
+			\end{align*}
+		\end{proof}
+		\begin{proposition}\label{prop:pi_dr_pos}
+			Let $\phi_{\pi}\in(1,\overline{\phi}_{\pi})$ and $p_M < \frac{1-\kappa\sigma}{1+\kappa\sigma}$. Then $\frac{\partial\pi_{RSS}^{DE}}{\partial c} > 0 $
+		\end{proposition}
+		\begin{proof}
+			Begin by noticing that
+			\begin{align*}
+			\frac{\partial \pi_{RSS}^{DE}}{\partial c} = -\frac{\kappa\sigma\phi_{\pi}(\kappa\sigma+1)(p_M-1)}{\phi_{\pi}(p_M-1) + \kappa\sigma\phi_{\pi}(1+p_M) + 2}
+			\end{align*}
+			The numerator of our fraction is always positive. Thus it suffices to show that the denominator is always greater than zero:
+			\begin{align*}
+			\phi_{\pi}(p_M-1) + \kappa\sigma\phi_{\pi}(1+p_M) + 2 &> 0\\
+			\phi_{\pi}((p_M-1) + \kappa\sigma(1+p_M)) &> -2\\
+			\phi_{\pi} &< \frac{-2}{(p_M-1) + \kappa\sigma(1+p_M)} = \overline{\phi}_{\pi}
+			\end{align*}
+			Where $(p_M-1) + \kappa\sigma(1+p_M)<0$ if and only if $p_M < \frac{1-\kappa\sigma}{1+\kappa\sigma}$, which it does, by assumption.
+		\end{proof}
+		\begin{corollary}
+			If $p_M > \frac{1-\kappa\sigma}{1+\kappa\sigma}$ then $\overline{\phi}_{\pi} = \infty$
+		\end{corollary}
+		\begin{proof}
+			Let $p_M > \frac{1-\kappa\sigma}{1+\kappa\sigma}$ Evaluating $\overline{\phi}_{\pi}$ implies that $\overline{\phi}_{\pi} < 0$, which is impossible, given that $\phi_{\pi}>1$.
+		\end{proof}
+		\begin{proposition}\label{prop:pi_tr_neg}
+			Let $\phi_{\pi}\in(\underline{\phi}_{\pi},\infty)$. Then $\frac{\partial\pi_{RSS}^{TE}}{\partial c} < 0 $
+		\end{proposition}
+		\begin{proof}
+			Begin by noticing that
+			\begin{align*}
+			\frac{\partial \pi_{RSS}^{TE}}{\partial c} = \frac{2\kappa\sigma(p_M-1)}{\left[\phi_{\pi}(p_M - \kappa\sigma(1-p_M) + 1) - 2\right]\left[p_M + 1\right]} + \frac{\kappa\sigma(p_M-1)}{(p_M +1)(\kappa\sigma\phi_{\pi} + 1)}
+			\end{align*}
+			Notice that the second summand in our fraction is always negative. Thus, it suffices to show that the first summand is also negative. It is clear that the numerator is less than zero. To see when the denominator is greater than zero, we evaluate the following inequality:
+			\begin{align*}
+			\left[\phi_{\pi}(p_M - \kappa\sigma(1-p_M) + 1) - 2\right]\left[p_M + 1\right] &> 0 \\
+			\phi_{\pi}(p_M - \kappa\sigma(1-p_M) + 1) &> 2 \\
+			\phi_{\pi} &> \frac{2}{p_M - \kappa\sigma(1-p_M) + 1}  = \underline{\phi}_{\pi}
+			\end{align*}
+		\end{proof}
+		\begin{proposition}\label{prop:oneRSS}
+			The unique largest possible shock to an economy ($\text{max}\left\{c_{LB}, c_{UB}, c_{B}\right\}$) implies that $\pi_{RSS}^{DE} = \pi_{RSS}^{TE}$.
+		\end{proposition}
+		\begin{proof}
+			Assume, by way of contradiction, that $\text{max}\left\{c_{LB}, c_{UB}, c_{B}\right\}$ implies that $\pi_{RSS}^{DE} \ne \pi_{RSS}^{TE}$. Thus, the risk-adjusted Fisher relation intersects the Taylor Rule at two distinct points. Recall that there does not exist $c > \text{max}\left\{c_{LB}, c_{UB}, c_{B}\right\}$ because it implies that the risk-adjusted Fisher relation and Taylor rule do not intersect. This implies a jump discontinuity in our derivative of the RSS inflation with respect to shock size. However, on the specified intervals above, the derivatives of the RSS inflation values are continuous, and thus yields a contradiction.
+		\end{proof}
+
+		\subsubsection{Main results}
+
+		% % % % % % % % % % % % % %
+		% Moderate ph_pi
+		% % % % % % % % % % % % % %
+		\proptwo*
+
+		\begin{proof}
+			By Proposition \ref{prop:cPHIpilbcPHIpiub}, we have that $c_B$ is the maximum level of uncertainty. (i) and (ii) follows directly from Proposition \ref{prop:oneRSS}.
+
+			Finally, at the maximum level of uncertainty consistent with the equilibrium existence, $\pi_{RSS}^{DE} = \pi_{RSS}^{TE} = \pi_{B}$ follows directly from Proposition \ref{prop:pi_dr_pos} and \ref{prop:pi_tr_neg} which state that
+			\begin{align*}
+			\frac{\partial\pi_{RSS}^{TE}}{\partial c} < 0\\
+			\frac{\partial\pi_{RSS}^{DE}}{\partial c} > 0
+			\end{align*}
+		\end{proof}
+
+
+
+		\corone*
+
+		\begin{proof}
+			If $\pi^* = -r^*/(1-\phi_{\pi})$, then $\pi_B = 0$. Thus, at $c_B$ the deflationary equilibrium RSS inflation and policy rates are both and zero.
+			Further, notice that
+			\begin{align*}
+			\frac{\partial\pi_B}{\partial\pi^*} = -\frac{1-\phi_{\pi}}{\phi_{\pi}} > 0
+			\end{align*}
+			Then, for $\pi^* > -r^*/(1-\phi_{\pi})$, $\pi_B > 0$ and there exists $c_* \le c_B$ such that the deflationary equilibrium RSS inflation and policy rates are positive and zero, respectively.
+		\end{proof}
+
+
+		% % % % % % % % % % % % % %
+		% Low ph_pi
+		% % % % % % % % % % % % % %
+
+		\propthree*
+		\begin{proof}
+			By Proposition \ref{prop:cPHIpilb}, we have that $c_{UB}$ is the maximum level of uncertainty. (i) follows directly from Proposition \ref{prop:pi_tr_zero}.  (ii) and (iii) follow from Proposition  \ref{prop:pi_dr_pos} which state that
+			\begin{align*}
+			\frac{\partial\pi_{RSS}^{TE}}{\partial c} = 0\\
+			\frac{\partial\pi_{RSS}^{DE}}{\partial c} > 0
+			\end{align*}
+			Notice that there exists a shock $c_{*} \in (c_L{B}, c_{B})$ which implies that RSS inflation in the deflationary equilibrium is less than $\pi_{B}$. This translates into a RSS policy rate in the deflationary equilibrium at the ELB. Similarly, a shock $c_{*} \in (c_{B}, c_{UB})$ will yield a shock that RSS inflation in the deflationary equilibrium is greater than $\pi_{B}$, which translates into a positive RSS policy rate in the deflationary equilibrium.
+
+			Finally, at the maximum level of uncertainty consistent with the equilibrium existence, $\pi_{RSS}^{DE} = \pi_{RSS}^{TE} = \pi_{DSS}^{TE}$  follows directly from Proposition \ref{prop:pi_tr_zero}.
+		\end{proof}
+
+
+		\cortwo*
+		\begin{proof}
+			If $\pi^* > 0$ then at $c = c_{UB}$, the deflationary equilibrium RSS inflation and policy rates are equal to the Deterministic Steady States and are both positive.
+		\end{proof}
+
+
+		% % % % % % % % % % % % % %
+		% High ph_pi
+		% % % % % % % % % % % % % %
+
+		\propfour*
+
+		\begin{proof}
+			By Proposition \ref{prop:cPHIpiub}, we have that $c_{LB}$ is the maximum level of uncertainty. (i) follows directly from Proposition \ref{prop:pi_dr_zero}. (ii) and (iii) follow by Proposition \ref{prop:pi_tr_neg} which state that
+			\begin{align*}
+			\frac{\partial\pi_{RSS}^{TE}}{\partial c} < 0\\
+			\frac{\partial\pi_{RSS}^{DE}}{\partial c} = 0
+			\end{align*}
+			A shock $c_{*} \in (c_{UB}, c_{B})$ will yield a shock that RSS inflation in the target equilibrium is greater than $\pi_{B}$, which translates into a RSS policy rate  greater than zero in the target equilibrium. Similarly, a shock $c_{*} \in (c_{B}, c_{LB})$ will yield a shock that RSS inflation in the target equilibrium is less than $\pi_{B}$, which translates into a zero RSS policy rate in the target equilibrium.
+
+			Finally, at the maximum level of uncertainty consistent with the equilibrium existence, $\pi_{RSS}^{DE} = \pi_{RSS}^{TE} = \pi_{DSS}^{DE}$  follows directly from Proposition \ref{prop:oneRSS}.
+		\end{proof}
+
+
+		%		\corthree*
+		%		\begin{proof}
+		%			This follows directly from Proposition \ref{prop:prop4}.iii
+		%		\end{proof}
+
+		\corfour*
+		\begin{proof}
+			If $\pi^* = -r^*/(1-\phi_{\pi})$, then $\pi_B = 0$. Thus, at $c_B$ the target equilibrium RSS inflation and policy rates are both and zero.
+			Further, notice that
+			\begin{align*}
+			\frac{\partial\pi_B}{\partial\pi^*} = -\frac{1-\phi_{\pi}}{\phi_{\pi}} > 0
+			\end{align*}
+			Then, for $\pi^* > -r^*/(1-\phi_{\pi})$, $\pi_B > 0$ and there exists $c_* \le c_{B}$ such that the target equilibrium RSS inflation and policy rates are positive and zero, respectively.
+		\end{proof}
+
+		\subsection{Moments for the i.i.d. shock model}
+
+		Figure \ref{fig:iidMomentscPHIpiM} present how the RSS output, inflation, and policy rates, the expected value for output, inflation, and policy rates, and the probability of being at the ELB change as the degree of uncertainty increases in the economy. The solid black line represents values for the target equilibrium and the dashed black lines represent values for the deflationary equilibrium.
+
+		\begin{figure}[H]  %[!ht]
+			\begin{center}
+				\caption{i.i.d. Model Moments: $\phi_{\pi}\in(\underline{\phi}_{\pi},\overline{\phi}_{\pi})$}
+				\includegraphics[width= 12cm]{Figs/Final/stylized_iid_moments_cPHIpi_m.eps}
+				\label{fig:iidMomentscPHIpiM}
+			\end{center}
+		\end{figure}
+
+		Figure \ref{fig:iidMomentscPHIpiL} present how the RSS output, inflation, and policy rates, the expected value for output, inflation, and policy rates, and the probability of being at the ELB change as the degree of uncertainty increases in the economy. The solid black line represents values for the target equilibrium and the dashed black lines represent values for the deflationary equilibrium.
+
+		\begin{figure}[H]  %[!ht]
+			\begin{center}
+				\caption{i.i.d. Model Moments: $\phi_{\pi}\in(1,\underline{\phi}_{\pi})$}
+				\includegraphics[width= 12cm]{Figs/Final/stylized_iid_moments_cPHIpi_l.eps}
+				\label{fig:iidMomentscPHIpiL}
+			\end{center}
+		\end{figure}
+
+		Figure \ref{fig:iidMomentscPHIpiH} present how the RSS output, inflation, and policy rates, the expected value for output, inflation, and policy rates, and the probability of being at the ELB change as the degree of uncertainty increases in the economy. The solid black line represents values for the target equilibrium and the dashed black lines represent values for the deflationary equilibrium.
+
+		\begin{figure}[H]  %[!ht]
+			\begin{center}
+				\caption{i.i.d. Model Moments: $\phi_{\pi}\in(\overline{\phi}_{\pi},\infty)$}
+				\includegraphics[width= 12cm]{Figs/Final/stylized_iid_moments_cPHIpi_h.eps}
+				\label{fig:iidMomentscPHIpiH}
+			\end{center}
+		\end{figure}
+
+		\subsection{Two interesting cases in the model with a three-state shock}
+		\label{SS:TwoInterestingCases}
+
+		The results found in the main body of the paper only consider a unique maximum uncertainty value of the set of shock sizes $\text{max}\left\{c_{LB}, c_{UB}, c_{B}\right\}$. However, it is possible that there is no unique maximum of the set. Under this scenario, $\pi_{RSS}^{DE} \ne \pi_{RSS}^{TE}$. However, our economy has an infinite number of RSS.
+
+		To intuitively understand what is happening, recall that when $c = c_{B}$, this is the size of the shock such that $\pi_{RSS}^{TE} = \pi_B$ or  $\pi_{RSS}^{DE} = \pi_B$. Similarly, if $c = c_{UB}$, then $\pi_{RSS}^{TE} = \pi_{DSS}^{TE}$. Thus, if $c_{B} = c_{UB} = \text{max}\left\{c_{LB}, c_{UB}, c_{B}\right\}$, a scenario occurs where the risk-adjusted Fisher relation falls exactly along the Taylor rule.
+
+		This infinite number of RSS, coincidentally, occurs at a specific value of $\phi_{\pi}$: $\phi_{\pi, LB}$ for the case considered in the above paragraph and $\overline{\phi}_{\pi}$ for the case when  $c_{B} = c_{LB} = \text{max}\left\{c_{LB}, c_{UB}, c_{B}\right\}$. Each case is graphically detailed in Figure \ref{fig:cPHIpilb} and \ref{fig:cPHIpiub} respectively.
+
+		\begin{figure}[t]
+			\caption{Infinity many equilibria}
+			\begin{center}
+				\begin{subfigure}[b]{0.49\textwidth}
+					\centering
+					\includegraphics[width=\textwidth]{Figs/Final/RAFR_cPHIpi_lb.eps}
+					\caption{ $\phi_{\pi} = \underline{\phi}_{\pi}$}
+					\label{fig:cPHIpilb}
+				\end{subfigure}
+				\begin{subfigure}[b]{0.49\textwidth}
+					\centering
+					\includegraphics[width=\textwidth]{Figs/Final/RAFR_cPHIpi_ub.eps}
+					\caption{$\phi_{\pi} = \overline{\phi}_{\pi}$}
+					\label{fig:cPHIpiub}
+				\end{subfigure}
+			\end{center}
+		\end{figure}
+
+
+		\section{Details on the AR(1) shock model}
+		\label{A:SolutionMethod}
+		\setcounter{equation}{0}
+
+
+		\subsection{Solution Method to solve for policy functions}
+
+		Recall that the problem is to find a set of $\{y(\cdot), \pi(\cdot), i(\cdot)\}$ that satisfies the equilibrium conditions:
+		\begin{align}
+		& y_{t} = \mathbb{E}_t[y_{t+1}] - \sigma\left[i_t - \mathbb{E}_t[\pi_{t+1}]-\delta_t\right] \label{eq:EE_appx}\\
+		& \pi_{t} = \kappa y_t + \beta\mathbb{E}_t[\pi_{t+1}]\label{eq:PC_appx}\\
+		& i_t = \text{max}\left[i_{ELB},r^*  + \phi_{\pi}(\pi_t )\right]\label{eq:TR_appx}
+		\end{align}
+
+		Consider an $n$-state discretization of an AR(1) shock approximated via the Rouwenhorst method. The Rouwenhorst approximation method will yield an $n \times 1$ vector of grid points $[\delta_1,\dots,\delta_n]$ and an $n \times n$ matrix, $T$, of transition probabilities:
+		\begin{align}
+		T=
+		\begin{bmatrix}
+		p_{1,1} & p_{1,2} & \dots & p_{1,n} \\
+		p_{2,1} & p_{2,2} & \dots & p_{2,n} \\
+		\vdots & \vdots & \ddots & \vdots \\
+		p_{n,1} & p_{n,2} & \dots & p_{n,n} \\
+		\end{bmatrix}
+		=
+		\begin{bmatrix}
+		t_1 \\
+		t_2 \\
+		\vdots \\
+		t_n  \\
+		\end{bmatrix}
+		\end{align}
+		where $t_i$ is the $i^{th}$ row of $T$.
+
+		Given this  $n$-state discretization, we are left with a series of $n$ equations and $n$ unknowns to solve for:
+
+		\begin{align*}
+		& y_{1} = \mathbb{E}_1[y_{t+1}] - \sigma\left[i_1 - r^* - \mathbb{E}_1[\pi_{t+1} ]-\delta_1\right] \\
+		&\vdots \nonumber\\
+		& y_{n} = \mathbb{E}_n[y_{t+1}] - \sigma\left[i_n - r^* - \mathbb{E}_n[\pi_{t+1} ]-\delta_n\right]\\
+		%		\end{align*}
+		%		\begin{align*}
+		& \pi_1  = \kappa y_1 + \beta\mathbb{E}_1[\pi_{t+1}]\\
+		&\vdots \nonumber\\
+		& \pi_n  = \kappa y_n + \beta\mathbb{E}_n[\pi_{t+1}]\\
+		%		\end{align*}
+		%		\begin{align*}
+		& i_1 = \text{max}\left[i_{ELB},r^*  + \phi_{\pi}\pi_1\right]\\
+		\vdots \nonumber\\
+		& i_n = \text{max}\left[i_{ELB},r^*  + \phi_{\pi}\pi_n\right]
+		\end{align*}
+		Here, $\mathbb{E}_i[\cdot]$ is the conditional expectation of our policy function, given state $i$. It is formally defined as the $t_i\cdot z$, where $z = [z_1,\cdots,z_n]^{T}$, for a given policy function.
+
+		Notice that, absent the ELB constraint, we are left with a linear-system of equations and can be solved for using basic matrix algebra. Let $A$ be a matrix of coefficients, $x$ be a vector of variables, $b$ be a vector of coefficients, where
+		\begin{align*}
+		\begin{array}{ccc}
+		A =
+		\begin{bmatrix}
+		A_{1,1} & A_{1,2} & A_{1,3} \\
+		A_{2,1} & A_{2,2} & A_{2,3} \\
+		A_{3,1} & A_{3,2} & A_{3,3} \\
+		\end{bmatrix} &
+		x =
+		\begin{bmatrix}
+		y_1\\
+		\vdots\\
+		y_n\\
+		\pi_1\\
+		\vdots\\
+		\pi_n\\
+		i_1\\
+		\vdots\\
+		i_n\\
+		\end{bmatrix}&
+		b =
+		\begin{bmatrix}
+		r^* - \delta_1\\
+		\vdots\\
+		r^* - \delta_n\\
+		0\\
+		\vdots\\
+		0\\
+		r^* \\
+		\vdots\\
+		r^* \\
+		\end{bmatrix}
+		\end{array}
+		\end{align*}
+		and
+
+		\begin{align*}
+		\begin{array}{lll}
+		A_{1,1} = \mathbb{I}_n - T&
+		%\begin{bmatrix}
+		%	1-p_{1,1} & p_{1,2} & \cdots & p_{1,n} \\
+		%	p_{2,1} & 1-p_{2,2} & \cdots & p_{2,n} \\
+		%	\vdots & \vdots & \ddots & \vdots \\
+		%	p_{1,1} & p_{n,2} & \cdots & 1-p_{n,n} \\
+		%\end{bmatrix} &
+		A_{1,2} = -\sigma\cdot T&
+		A_{1,3} = \sigma\cdot\mathbb{I}_n\\
+		%\begin{bmatrix}
+		%	\sigma & 0 & \cdots & 0 \\
+		%	0 & \sigma & \cdots & 0 \\
+		%	\vdots & \vdots & \ddots & \vdots \\
+		%	0 & 0 & \cdots & \sigma \\
+		%\end{bmatrix}\\
+		A_{2,1} = \kappa\cdot\mathbb{I}_n&
+		%\begin{bmatrix}
+		%	\kappa & 0 & \cdots & 0 \\
+		%	0 & \kappa & \cdots & 0 \\
+		%	\vdots & \vdots & \ddots & \vdots \\
+		%	0 & 0 & \cdots & \kappa \\
+		%\end{bmatrix}&
+		A_{2,2} = \beta (\mathbb{I}_n - T)&
+		A_{2,3} = 0\cdot \mathbb{I}_n\\
+		A_{3,1} = 0\cdot \mathbb{I}_n&
+		A_{3,2} = -\phi_{\pi}\cdot \mathbb{I}_n&
+		%\begin{bmatrix}
+		%	-\phi_{\pi} & 0 & \cdots & 0 \\
+		%	0 & -\phi_{\pi} & \cdots & 0 \\
+		%	\vdots & \vdots & \ddots & \vdots \\
+		%	0 & 0 & \cdots & -\phi_{\pi} \\
+		%\end{bmatrix}&
+		A_{3,3} = \mathbb{I}_n
+		%\begin{bmatrix}
+		%	1 & 0 & \cdots & 0 \\
+		%	0 & 1 & \cdots & 0 \\
+		%	\vdots & \vdots & \ddots & \vdots \\
+		%	0 & 0 & \cdots & 1 \\
+		%^\end{bmatrix}
+		\end{array}
+		\end{align*}
+		Here, $\mathbb{I}_n$ is the identity matrix of dimension $n$.
+
+		There are two algorithms to consider. First, we consider the algorithm that solves for the policy functions of the target equilibrium. Then we consider the algorithm that solves for the policy functions of the deflationary equilibrium.
+
+		\subsubsection{Algorithm for the target equilibrium}
+		The algorithm to solve for the policy functions in the target equilibrium is as follows. Start by assuming that the ELB does not bind in any period and solve the linear system of equations. If $i_n < 0$ then assume that $i_n = 0$ and resolve the system of equations. If $i_{n-1} < 0$ then assume that $i_{n-1} = 0$ and resolve the system of equations. Continue this process until for all $j\in(1,\dots,n)$, $i_j \ge 0$.
+
+		\subsubsection{Algorithm for the deflationary equilibrium}
+		The algorithm to solve for the policy functions in the deflationary equilibrium is as follows. Start by assuming that the ELB binds in all period and solve the linear system of equations. If the implied interest rate, $i_1^{imp} \equiv r^*  + \phi_{\pi}\pi_1 > i_{ELB}$ then assume that $i_i \ne i_{ELB}$ and resolve the system of equations. If $i_{2} > i_{ELB}$ then assume that $i_2^{imp} > i_{ELB}$ and resolve the system of equations. Continue this process until for all $j\in(1,\dots,n)$, $i_j^{imp} > 0$.
+
+		\subsection{Solution Method to solve for risk-adjusted Fisher relation}
+
+		In this section, we present the details on how to solve for the risk-adjusted Fisher relation given a continuous AR(1) shock approximated using Markov chains via the Rouwenhorst approximation method.
+
+		Again, consider an $n$-state discretization -- where $n$ is odd -- of an AR(1) shock approximated via the Rouwenhorst method. There will be an $n \times 1$ vector of grid points $[\delta_1^n,\dots,\delta_n^n]$ and an $n \times n$ matrix, $T$, of transition probabilities, where $T$ is defined in the same way above.
+
+		To solve for the risk-adjusted Fisher relation, given the \textit{candidate} $\pi_{RSS}$, we need to compute the risk-adjustment term based on \textit{hypothetical} policy functions. These hypothetical policy functions must satisfy the following conditions: (i) $\pi_{\pi_{RSS}}(\delta=0)=\pi_{RSS}$, (ii) the truncated Taylor rule, (iii) the Phillips curve,  and (iv) \textit{demeaned} Euler equations. Unlike the three state shock case, we will not present a full algebraic derivation, as the goal is to develop a general solution method for an $n$-state discretized shock. The goal is to re-frame the problem in terms of a system of equations, thus allowing us to take advantage of basic linear algebra techniques to solve for the hypothetical policy and risk-adjusted Fisher relation.
+
+		Let $x_{M}$ be the value the a given policy function takes in the ``middle state'', where $M$ is the $(n+1)/2^{th}$ position of our grid. Notice that by construction, the middle state is identical to the RSS, because the $(n+1)/2^{th}$ position of our vector of grid points is $0$.  Given this, observe that by rewriting the system in the following way we satisfy our conditions:
+		\begin{align*}
+		& y_{1} - y_{M} = \mathbb{E}_1[y_{t+1}]  - \mathbb{E}_M[y_{t+1}] - \sigma\left[i_1 - i_M  - \mathbb{E}_1[\pi_{t+1}] - \mathbb{E}_M[\pi_{t+1}] - \delta_1\right] \\
+		&\vdots \nonumber\\
+		& y_{j} - y_{M} = \mathbb{E}_j[y_{t+1}]  - \mathbb{E}_M[y_{t+1}] - \sigma\left[i_j - i_M  - \mathbb{E}_j[\pi_{t+1}] - \mathbb{E}_M[\pi_{t+1}] - \delta_j\right] \\
+		&\vdots \nonumber\\
+		& y_{n} - y_{M} = \mathbb{E}_n[y_{t+1}]  - \mathbb{E}_M[y_{t+1}] - \sigma\left[i_n - i_M  - \mathbb{E}_n[\pi_{t+1}] - \mathbb{E}_M[\pi_{t+1}] - \delta_n\right] \\
+		& \pi_1  = \kappa y_1 + \beta\mathbb{E}_1[\pi_{t+1}]\\
+		&\vdots \nonumber\\
+		& \pi_n  = \kappa y_n + \beta\mathbb{E}_n[\pi_{t+1}]\\
+		& i_1 = \text{max}\left[i_{ELB},r^*  + \phi_{\pi}\pi_1\right]\\
+		\vdots \nonumber\\
+		& i_n = \text{max}\left[i_{ELB},r^*  + \phi_{\pi}\pi_n\right]
+		\end{align*}
+		for $j \neq M$. $\mathbb{E}_i[\cdot]$ is defined as above. Absent the ELB constraint, we are left with a linear system of equations that can be solved using matrix algebra.Let $A$ be a matrix of coefficients, $x$ be a vector of variables, $b$ be a vector of coefficients, where
+
+		\begin{align*}
+		\begin{array}{ccc}
+		A =
+		\begin{bmatrix}
+		A_{1,1}^{(M)} - A_{y_{M},1}  & A_{1,2}^{(M)}  - A_{y_{M},2} & A_{1,3}^{(M)}  - A_{y_{M},3} \\
+		A_{2,1} & A_{2,2} & A_{2,3} \\
+		A_{3,1} & A_{3,2} & A_{3,3} \\
+		\end{bmatrix} &
+		x =
+		\begin{bmatrix}
+		y_1 - y_M\\
+		\vdots\\
+		y_j - y_M\\
+		\vdots\\
+		y_n\\
+		\pi_1\\
+		\vdots\\
+		\pi_n\\
+		i_1\\
+		\vdots\\
+		i_n\\
+		\end{bmatrix}&
+		b =
+		\begin{bmatrix}
+		- \delta_1\\
+		\vdots\\
+		- \delta_j\\
+		\vdots\\
+		- \delta_n\\
+		0\\
+		\vdots\\
+		0\\
+		r^* \\
+		\vdots\\
+		r^* \\
+		\end{bmatrix}
+		\end{array}
+		\end{align*}
+		for $j \neq M$. $A_{1,1}^{(M)}$, $A_{1,2}^{(M)}$, and $A_{1,3}^{(M)}$ are matrices of dimension $n-1 \times n$. We use the notation $A_{i,j}^{(M)}$ to represent the matrix $A_{i,j}$ where $M^{th}$ row has been removed. Similarly, $A_{y_{M},1}$, $A_{y_{M},2}$, and  $A_{y_{M},3}$ are matrices of dimension $n-1 \times n$ that take on the form:
+
+		\begin{align*}
+		A_{y_{M},1} &= [A_{1,1,M},\stackrel{\times N-1}{\cdots\cdots},A_{1,1,M}]'\\
+		A_{y_{M},2} &= [A_{1,2,M},\stackrel{\times N-1}{\cdots\cdots},A_{1,2,M}]'\\
+		A_{y_{M},3} &= [A_{1,3,M},\stackrel{\times N-1}{\cdots\cdots},A_{1,3,M}]'\\
+		\end{align*}
+		We use the notation $A_{i,j,M}$ to denote the $M^{th}$ row of $A_{i,j}$. Here, the $M^{th}$ row of $A_{i,j}$ has been repeated $n-1$ times.
+
+		 $A_{1,1}$, $A_{1,2}$, $A_{1,3}$, $A_{2,1}$, $A_{2,2}$, $A_{2,3}$, $A_{3,1}$, $A_{3,2}$, and $A_{3,3}$ are defined as before.
+
+	 	\subsubsection{Algorithm for the risk-adjusted Fisher relation}
+	 	The algorithm to solve for the risk-adjusted Fisher relation is as follows. For the \textit{candidate} $\pi_{RSS} = \pi_{\pi_{RSS}}(\delta=0)$, start by assuming that the ELB does not bind in any period and solve the linear system of equations. If $i_n < 0$ then assume that $i_n = 0$ and resolve the system of equations. If $i_{n-1} < 0$ then assume that $i_{n-1} = 0$ and resolve the system of equations. Continue this process until for all $j\in(1,\dots,n)$, $i_j \ge 0$.
+
+ 		Upon the completion of this algorithm, given the candidate $\pi_{RSS}$, the hypothetical policy functions that have been solved for satisfy the following conditions needed to calculate the risk-adjustment term: (i) $\pi_{\pi_{RSS}}(\delta=0)=\pi_{RSS}$, (ii) the truncated Taylor rule, (iii) the Phillips curve,  and (iv) \textit{demeaned} Euler equations. From here, it is straight forward to compute the risk-adjustment term and the risk-adjusted Fisher relation.
+
+		\subsection{Policy functions for the AR(1) shock model}
+
+		\begin{figure}[!ht]
+			\begin{center}
+				\caption{Policy Functions: Moderate  $\phi_{\pi}$}
+				\includegraphics[width = 12cm ]{Figs/Final/stylized_rouwenhorst_PFs_cPHIpi_m.eps}\label{fig:PFsModeratecPHIpi}
+			\end{center}
+		\end{figure}
+
+		Figure \ref{fig:PFsModeratecPHIpi} present the policy functions for output, inflation, and the policy rate for a model with a moderate value of $\phi_{\pi}$. The solid black line represents $\sigma^{max}_{\epsilon}$, which is the maximum degree of uncertainty in the economy before a solution does not exist. The top row of figures are policy functions for the target equilibrium and the bottom row are policy functions for the deflationary equilibrium.
+
+
+		Figure \ref{fig:PFsLowcPHIpi} present the policy functions for output, inflation, and the policy rate for a model with a low value of $\phi_{\pi}$. The solid black line represents $\sigma^{max}_{\epsilon}$, which is the maximum degree of uncertainty in the economy before a solution does not exist. The top row of figures are policy functions for the target equilibrium and the bottom row are policy functions for the deflationary equilibrium.
+
+		\begin{figure}[!ht]
+			\begin{center}
+				\caption{Policy Functions: Low  $\phi_{\pi}$}
+				\includegraphics[width = 12cm ]{Figs/Final/stylized_rouwenhorst_PFs_cPHIpi_l.eps}\label{fig:PFsLowcPHIpi}
+			\end{center}
+		\end{figure}
+
+		Figure \ref{fig:PFsHighcPHIpi} present the policy functions for output, inflation, and the policy rate for a model with a moderate value of $\phi_{\pi}$. The solid black line represents $\sigma^{max}_{\epsilon}$, which is the maximum degree of uncertainty in the economy before a solution does not exist. The top row of figures are policy functions for the target equilibrium and the bottom row are policy functions for the deflationary equilibrium.
+
+		\begin{figure}[!ht]
+			\begin{center}
+				\caption{Policy Functions: High  $\phi_{\pi}$}
+				\includegraphics[width = 12cm ]{Figs/Final/stylized_rouwenhorst_PFs_cPHIpi_h.eps}\label{fig:PFsHighcPHIpi}
+			\end{center}
+		\end{figure}
+
+
+
+		\begin{figure}[h]  %[!ht]
+			\begin{center}
+				\caption{Model Moments: Moderate  $\phi_{\pi}$}
+				\includegraphics[width = 15cm ]{Figs/Final/stylized_rouwenhorst_moments_cPHIpi_m.eps}\label{fig:MomentsModeratecPHIpi}
+			\end{center}
+		\end{figure}
+		\begin{figure}[h]  %[!ht]
+			\begin{center}
+				\caption{Model Moments: Low  $\phi_{\pi}$}
+				\includegraphics[width = 15cm ]{Figs/Final/stylized_rouwenhorst_moments_cPHIpi_l.eps}\label{fig:MomentsLowcPHIpi}
+			\end{center}
+		\end{figure}
+		%	\vspace{40cm}
+
+
+		\begin{figure}[h] %[!ht]
+			\begin{center}
+				\caption{Model Moments: High  $\phi_{\pi}$}
+				\includegraphics[width = 15cm ]{Figs/Final/stylized_rouwenhorst_moments_cPHIpi_h.eps}\label{fig:MomentsHighcPHIpi}
+			\end{center}
+		\end{figure}
+
+	\end{singlespace}
+
+
+\end{document}
