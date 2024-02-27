@@ -12,15 +12,24 @@ clc
 
 %% Paramaters
 cSIGMA = 1.05;
-cKAPPA = 0.04;
-cPHIpi = 1.75;
+cKAPPA = 0.0425;
+cPHIpi = 1.9;
 cRstar = 0.5/400;
 cBET = 1/(1 + cRstar);
 cRHO = 0.81; 
 cPItarg= 2/400;
-cSIGMAd_grid = linspace(0,0.4/100,101);
+cSIGMAd_grid = linspace(0,0.25/100,101);
 
-numpts = 21;
+% cSIGMA = 1;
+% cKAPPA = 0.04;
+% cPHIpi = 1.5;
+% cRstar = 0.05/400;
+% cBET = 1/(1 + cRstar);
+% cRHO = 0.81; 
+% cPItarg= 2/400;
+% cSIGMAd_grid = linspace(0,0.4/100,101);
+
+numpts = 51;
 
 %% Housekeeping
 pf_y_dr = nan(numpts, length(cSIGMAd_grid));
@@ -170,25 +179,40 @@ for i = 1:length(header)
         plot(cSIGMAd_grid,X_dr(:,i),'Color','k','LineStyle','-','LineWidth',2)
     end
     
-    xline(0.125/100, 'LineWidth',1,'Color','r')
-    if i == 4
-        yline(-1.11, 'LineWidth',1,'Color','b')
-        yline(-0.57, 'LineWidth',1,'Color','b')
-    elseif i == 5
-        yline(0.01, 'LineWidth',1,'Color','b')
-        yline(0.37, 'LineWidth',1,'Color','b')
-    elseif i == 6
-        yline(0.0, 'LineWidth',1,'Color','b')
-        yline(0.02, 'LineWidth',1,'Color','b')
-    elseif i == 7
-        yline(1.49, 'LineWidth',1,'Color','b')
-        yline(1.87, 'LineWidth',1,'Color','b')
-    elseif i == 8
-        yline(1.41, 'LineWidth',1,'Color','b')
-        yline(1.78, 'LineWidth',1,'Color','b')
-    elseif i == 9
-        yline(0.1, 'LineWidth',1,'Color','b')
-        yline(0.2, 'LineWidth',1,'Color','b')
+    xline(0.17/100, 'LineWidth',1,'Color','k','LineStyle','-')
+    if i == 4 % Expected Output Gap
+        yline(-0.5680*0.9, 'LineWidth',1,'Color','r','LineStyle','--')
+        yline(-1.1130*1.1, 'LineWidth',1,'Color','r','LineStyle','--')
+        yline(-0.5680, 'LineWidth',1,'Color','r','LineStyle','-')
+        yline(-1.1130, 'LineWidth',1,'Color','r','LineStyle','-')
+%         yline(0.3310, 'LineWidth',1,'Color','b','LineStyle','-')
+%         yline(0.2290, 'LineWidth',1,'Color','b','LineStyle','-')
+    elseif i == 5 % Expected Inflation
+%         yline(-0.11, 'LineWidth',1,'Color','r','LineStyle','-')
+%         yline(0.15, 'LineWidth',1,'Color','r','LineStyle','-')
+        yline(0.42*0.9, 'LineWidth',1,'Color','b','LineStyle','--')
+        yline(0.70*1.1, 'LineWidth',1,'Color','b','LineStyle','--')
+        yline(0.42, 'LineWidth',1,'Color','b','LineStyle','-')
+        yline(0.70, 'LineWidth',1,'Color','b','LineStyle','-')
+    elseif i == 6 % Expected Policy Rate
+        yline(0.15, 'LineWidth',1,'Color','r','LineStyle','-')
+    elseif i == 7 % St Dev Output Gap
+        yline(1.4940*0.9, 'LineWidth',1,'Color','r','LineStyle','--')
+        yline(1.8670*1.1, 'LineWidth',1,'Color','r','LineStyle','--')
+        yline(1.4940, 'LineWidth',1,'Color','r','LineStyle','-')
+        yline(1.8670, 'LineWidth',1,'Color','r','LineStyle','-')
+%         yline(0.8540, 'LineWidth',1,'Color','b','LineStyle','-')
+%         yline(0.9480, 'LineWidth',1,'Color','b','LineStyle','-')
+    elseif i == 8 % St Dev Inflation
+%         yline(1.1840, 'LineWidth',1,'Color','r','LineStyle','-')
+%         yline(1.6870, 'LineWidth',1,'Color','r','LineStyle','-')
+        yline(1.88*1.1, 'LineWidth',1,'Color','b','LineStyle','--')
+        yline(1.36*0.9, 'LineWidth',1,'Color','b','LineStyle','--')
+        yline(1.88, 'LineWidth',1,'Color','b','LineStyle','-')
+        yline(1.36, 'LineWidth',1,'Color','b','LineStyle','-')
+    elseif i == 9 % St Dev Policy Rate
+        yline(0.05, 'LineWidth',1,'Color','r','LineStyle','-')
+        yline(0.2, 'LineWidth',1,'Color','r','LineStyle','-')
     end
     xlabel('\sigma_{\epsilon}','FontSize',15)
     title(header{i},'FontSize',15,'FontWeight','Normal')

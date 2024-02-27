@@ -9,7 +9,8 @@ clc
 
 %% Housekeeping
 datapath = '../../Data/';
-head = {'Policy Rate', 'Headline Inf.', 'Core Inf.', 'BOJ Core Inf.', 'Core-Core Inf.', 'GDP Defl.'};
+head = {'Headline Inf.', 'Core Inf.', 'BOJ Core Inf.', 'Core-Core Inf.'};
+col = {'k', 'b', 'r', 'm'};
 
 savedir = cd;
 if ispc 
@@ -45,7 +46,7 @@ inflation.mu = round(mean([inf_headline inf_core inf_boj_core inf_core_core defl
 inflation.p50 = round(median([inf_headline inf_core inf_boj_core inf_core_core defl]),3);
 inflation.sig2 = round(var([inf_headline inf_core inf_boj_core inf_core_core defl]),3);
 inflation.sig = round(std([inf_headline inf_core inf_boj_core inf_core_core defl]),3);
-inflation.fracpos = 100*round(mean([inf_headline inf_core inf_boj_core inf_core_core defl] > 0),3);
+inflation.fracpos = round(mean([inf_headline inf_core inf_boj_core inf_core_core defl] > 0),3);
 
 InflationTable = table(inflation.mu', ...
                        inflation.p50', ...
@@ -55,7 +56,7 @@ InflationTable = table(inflation.mu', ...
                        ["Mean",...
                         "Median",...
                         "St. Dev",...
-                        "Positve (%)"],...
+                        "Fraction of Positve $\pi$"],...
                         'RowNames',...
                         ["Headline Inflation",...
                         "Core Inflation",...
@@ -63,22 +64,22 @@ InflationTable = table(inflation.mu', ...
                         "Core-Core Inflation",...
                         "GDP Deflator"]);
 
-inx = find(time == 2010);
-recent_inflation.mu = round(mean([inf_headline(inx:end) inf_core(inx:end) inf_boj_core(inx:end) inf_core_core(inx:end) defl(inx:end)]),3);
-recent_inflation.p50 = round(median([inf_headline(inx:end) inf_core(inx:end) inf_boj_core(inx:end) inf_core_core(inx:end) defl(inx:end)]),3);
-recent_inflation.sig2 = round(var([inf_headline(inx:end) inf_core(inx:end) inf_boj_core(inx:end) inf_core_core(inx:end) defl(inx:end)]),3);
-recent_inflation.sig = round(std([inf_headline(inx:end) inf_core(inx:end) inf_boj_core(inx:end) inf_core_core(inx:end) defl(inx:end)]),3);
-recent_inflation.fracpos = 100*round(mean([inf_headline(inx:end) inf_core(inx:end) inf_boj_core(inx:end) inf_core_core(inx:end) defl(inx:end)] > 0),3);
+inx = find(time == 2013);
+recent.inflation.mu = round(mean([inf_headline(inx:end) inf_core(inx:end) inf_boj_core(inx:end) inf_core_core(inx:end) defl(inx:end)]),3);
+recent.inflation.p50 = round(median([inf_headline(inx:end) inf_core(inx:end) inf_boj_core(inx:end) inf_core_core(inx:end) defl(inx:end)]),3);
+recent.inflation.sig2 = round(var([inf_headline(inx:end) inf_core(inx:end) inf_boj_core(inx:end) inf_core_core(inx:end) defl(inx:end)]),3);
+recent.inflation.sig = round(std([inf_headline(inx:end) inf_core(inx:end) inf_boj_core(inx:end) inf_core_core(inx:end) defl(inx:end)]),3);
+recent.inflation.fracpos = round(mean([inf_headline(inx:end) inf_core(inx:end) inf_boj_core(inx:end) inf_core_core(inx:end) defl(inx:end)] > 0),3);
 
-InflationRecentTable = table(recent_inflation.mu', ...
-                       recent_inflation.p50', ...
-                       recent_inflation.sig', ...
-                       recent_inflation.fracpos', ...
+InflationRecentTable = table(recent.inflation.mu', ...
+                       recent.inflation.p50', ...
+                       recent.inflation.sig', ...
+                       recent.inflation.fracpos', ...
                        'VariableNames', ...
                        ["Mean",...
                         "Median",...
                         "St. Dev",...
-                        "Positve (%)"],...
+                        "Fraction of Positve $\pi$"],...
                         'RowNames',...
                         ["Headline Inflation",...
                         "Core Inflation",...
@@ -102,6 +103,11 @@ OutputGapTable = table(outputgap.mu', ...
                         ["BOJ Measure",...
                         "Cabinet Measure"]);
 
+recent.outputgap.mu = round(mean([gap_boj(inx:end) gap_cabinet(inx:end)]),3);
+recent.outputgap.p50 = round(median([gap_boj(inx:end) gap_cabinet(inx:end)]),3);
+recent.outputgap.sig2 = round(var([gap_boj(inx:end) gap_cabinet(inx:end)]),3);
+recent.outputgap.sig = round(std([gap_boj(inx:end) gap_cabinet(inx:end)]),3);
+
 polrate.mu = round(mean(int),3);
 polrate.p50 = round(median(int),3);
 polrate.sig2 = round(var(int),3);
@@ -115,27 +121,32 @@ PolRateTable = table(polrate.mu', ...
                       "Median",...
                       "St. Dev"]);
 
+recent.polrate.mu = round(mean([int(inx:end)]),3);
+recent.polrate.p50 = round(median([int(inx:end)]),3);
+recent.polrate.sig2 = round(var([int(inx:end)]),3);
+recent.polrate.sig = round(std([int(inx:end)]),3);
+
 maketable(InflationTable,"InflationSumStat");
 maketable(InflationRecentTable,"InflationRecentSumStat");
 maketable(OutputGapTable,"OutputGapSumStat");
 maketable(PolRateTable,"PolRateSumStat");
 
 %% Time Series Plots
-XX = [int, inf_headline, inf_core, inf_boj_core, inf_core_core, defl];
+XX = [inf_headline, inf_core, inf_boj_core, inf_core_core];
 
 fig(1) = figure(1);
 for i = 1:length(head)
-    subplot(3,2,i)
+    subplot(2,2,i)
     box on
     grid on
     hold on
     plot(time, XX(:,i), 'LineWidth', 2, 'color', 'k')
     
 
-    set(gca,'fontsize',10,'XLim',[1998 2019])
+    set(gca,'fontsize',20,'XLim',[1998 2019])
     yline(0,'k','linewidth',1)
-    xlabel('Time','fontsize',15)
-    title(head{i},'fontsize',15, 'FontWeight','normal')
+    xlabel('Time','fontsize',20)
+    title(head{i},'fontsize',20, 'FontWeight','normal')
 end
 
 set(fig(1),'PaperOrientation','Landscape');
@@ -144,25 +155,22 @@ print(fig(1),'-dpdf',strcat( savedir,'TSplots.pdf'));
 
 %% Rolling Average Plots (Rolling End)
 endinx = find(time == 2008);
-XX_rolling_end = zeros(length(time) - endinx + 1, 6);
+XX_rolling_end = zeros(length(time) - endinx + 1, 4);
 for i = 1:size(XX_rolling_end,1)
     XX_rolling_end(i,:) = mean(XX(1:endinx + i - 1, :));
 end
 
 fig(2) = figure(2);
+box on
+grid on
+hold on
 for i = 1:length(head)
-    subplot(3,2,i)
-    box on
-    grid on
-    hold on
-    plot(time(endinx:end), XX_rolling_end(:,i), 'LineWidth', 2, 'color', 'k')
-    
-
-    set(gca,'fontsize',10,'XLim',[2008 2019])
-    yline(0,'k','linewidth',1)
-    xlabel('Time','fontsize',15)
-    title(head{i},'fontsize',15, 'FontWeight','normal')
+    h(i) = plot(time(endinx:end), XX_rolling_end(:,i), 'LineWidth', 4, 'color', col{i});
 end
+set(gca,'fontsize',20,'XLim',[2008 2019])
+yline(0,'k','linewidth',1)
+xlabel('Time','fontsize',20)
+% L = legend([h(1) h(2) h(3) h(4)], 'Headline Inf.', 'Core Inf.', 'BOJ Core Inf.', 'Core-Core Inf.','FontSize',15,'Location','NorthWest');
 
 set(fig(2),'PaperOrientation','Landscape');
 set(fig(2),'PaperPosition',[0 0 11 8.5]);
@@ -171,64 +179,61 @@ print(fig(2),'-dpdf',strcat( savedir,'RollingMeanEnd.pdf'));
 
 %% Rolling Average Plots (Rolling Start)
 startinx = find(time == 2013);
-XX_rolling_start = zeros(length(time) - startinx + 1, 6);
+XX_rolling_start = zeros(length(time) - startinx + 1, 4);
 for i = 1:startinx
     XX_rolling_start(i,:) = mean(XX(i:end, :));
 end
 
 fig(3) = figure(3);
+box on
+grid on
+hold on
 for i = 1:length(head)
-    subplot(3,2,i)
-    box on
-    grid on
-    hold on
-    plot(time(1:startinx), XX_rolling_start(:,i), 'LineWidth', 2, 'color', 'k')
-    
-
-    set(gca,'fontsize',10,'XLim',[1998 2013])
-    yline(0,'k','linewidth',1)
-    xlabel('Time','fontsize',15)
-    title(head{i},'fontsize',15, 'FontWeight','normal')
+    h(i) = plot(time(1:startinx), XX_rolling_start(:,i), 'LineWidth', 4, 'color', col{i});
 end
+set(gca,'fontsize',20,'XLim',[1998 2013])
+yline(0,'k','linewidth',1)
+xlabel('Time','fontsize',20)
+L = legend([h(1) h(2) h(3) h(4)], 'Headline Inf.', 'Core Inf.', 'BOJ Core Inf.', 'Core-Core Inf.','FontSize',20,'Location','NorthWest');
 
 set(fig(3),'PaperOrientation','Landscape');
 set(fig(3),'PaperPosition',[0 0 11 8.5]);
 print(fig(3),'-dpdf',strcat( savedir,'RollingMeanStart.pdf'));
 
 
-%% Kernel Density 
-for j = 1:3
-    if j == 1
-        startingyear = 1998;
-    elseif j == 2
-        startingyear = 2005;
-    elseif j == 3
-        startingyear = 2010;
-    end
-    startinx = find(time == startingyear);
-    
-    for i = 1:6
-        [f, xi] = ksdensity(XX(startinx:end,i));
-        XX_kdensity(:,i) = f;
-        xx_kdensity(:,i) = xi;
-    end
-
-    fig(3+j) = figure(3+j);
-    for i = 1:length(head)
-        subplot(3,2,i)
-        box on
-        grid on
-        hold on
-        plot(xx_kdensity(:,i), XX_kdensity(:,i), 'LineWidth', 2, 'color', 'k')
-        
-    
-        set(gca,'fontsize',10)
-        ylabel('Density','fontsize',15)
-        title(head{i},'fontsize',15, 'FontWeight','normal')
-    end
-    
-    
-    set(fig(3+j),'PaperOrientation','Landscape');
-    set(fig(3+j),'PaperPosition',[0 0 11 8.5]);
-    print(fig(3+j),'-dpdf',strcat( savedir,'KernDensities_',num2str(startingyear),'.pdf'));
-end
+% %% Kernel Density 
+% for j = 1:3
+%     if j == 1
+%         startingyear = 1998;
+%     elseif j == 2
+%         startingyear = 2005;
+%     elseif j == 3
+%         startingyear = 2010;
+%     end
+%     startinx = find(time == startingyear);
+%     
+%     for i = 1:6
+%         [f, xi] = ksdensity(XX(startinx:end,i));
+%         XX_kdensity(:,i) = f;
+%         xx_kdensity(:,i) = xi;
+%     end
+% 
+%     fig(3+j) = figure(3+j);
+%     for i = 1:length(head)
+%         subplot(3,2,i)
+%         box on
+%         grid on
+%         hold on
+%         plot(xx_kdensity(:,i), XX_kdensity(:,i), 'LineWidth', 2, 'color', 'k')
+%         
+%     
+%         set(gca,'fontsize',10)
+%         ylabel('Density','fontsize',15)
+%         title(head{i},'fontsize',15, 'FontWeight','normal')
+%     end
+%     
+%     
+%     set(fig(3+j),'PaperOrientation','Landscape');
+%     set(fig(3+j),'PaperPosition',[0 0 11 8.5]);
+%     print(fig(3+j),'-dpdf',strcat( savedir,'KernDensities_',num2str(startingyear),'.pdf'));
+% end

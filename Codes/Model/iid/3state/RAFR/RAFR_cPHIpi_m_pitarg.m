@@ -119,7 +119,7 @@ for j = 1:length(cSHOCK_grid)
             it = it + 1;
         end
     end   
-    h(j) = plot(400*pi_m, 400*rafr(:,j),'Color','r','LineStyle',type{j},'LineWidth',2);
+    h(j) = plot(400*pi_m, 400*rafr(:,j),'Color','r','LineStyle',type{j},'LineWidth',3);
     p1 = plot(400*pi_m(RSS(1)),400*rafr(RSS(1),j));
     if j ~= 3
         p2 = plot(400*pi_m(RSS(2)),400*rafr(RSS(2),j)); 
@@ -130,9 +130,9 @@ for j = 1:length(cSHOCK_grid)
 end
 
 xlabel('Inflation','FontSize',16)
-ylabel('Nominal Interst Rate','FontSize',16)
+ylabel('Nominal Interest Rate','FontSize',16)
 set(gca,'Xlim',[400*pi_m(1), 400*pi_m(end)],'Ylim',[-1, 4],'FontSize',25)
-L = legend([h(1) h(2) h(3)],'c = 0.15','c = 0.33','c = c_{max}');
+L = legend([h(1) h(2) h(3)],'c_L','c_M','c_{max}');
 set(L,'Location','NorthWest','Fontsize',25)
 
 savedir = cd;
@@ -146,6 +146,5 @@ end
 
 set(fig(1),'PaperOrientation','Landscape');
 set(fig(1),'PaperPosition',[0 0 11 8.5]);
-% print(fig(1),'-depsc','RAFR_cPHIpi_m_pitarg.eps');
-print(fig(1),'-depsc',strcat(savedir,'RAFR_cPHIpi_m_pitarg.eps'));
+print(fig(1),'-dpdf',strcat(savedir,'iid_RAFR_cPHIpi_m_cPItarg.pdf'));
 

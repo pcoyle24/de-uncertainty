@@ -17,9 +17,9 @@ cKAPPA = 0.02;
 cPHIpi_grid = [2, 4, 10];
 cRstar = 1/400;
 cRHO = 0.8; 
-cPItarg= 0/400; 
+cPItarg= 2/400; 
 
-cSIGMAd_in_grid = [0.3/100, 0.3/100, 0.3/100];
+cSIGMAd_in_grid = [0.9/100, 0.9/100, 0.9/100];
 for k = 1:length(cPHIpi_grid)
     cPHIpi = cPHIpi_grid(k);
     cSIGMAd_in = cSIGMAd_in_grid(k);
@@ -54,4 +54,4 @@ for k = 1:length(cPHIpi_grid)
     end
     
 end
-save('cSIGMAd_max.mat','cSIGMAd_max')
+save('cSIGMAd_max_cPItarg.mat','cSIGMAd_max')
