@@ -6,3 +6,4 @@ Codes to replicate the figures are found in *\Draft\Figs*. There are three subfo
 2. *iid* - contains code files related to the model with an I.I.D. demand shock specification
    - contains subfolder for codes that use a 3-state I.I.D. discritization of demand shock.
 3. *Final* - contains final figures that are published in the paper. All codes that produce figures are by default saved in this folder.
+
