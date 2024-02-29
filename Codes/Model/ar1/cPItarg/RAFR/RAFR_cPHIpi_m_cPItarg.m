@@ -1,9 +1,7 @@
 %--------------------------------------------------------------------------
-% File Name: stylized_rouwenhorst_RAFR_cPHIpi_m.m
+% File Name: RAFR_cPHIpi_m_cPItarg.m
 % Author: Philip Coyle
 % Date Created: 01/24/2019
-% cd /mq/philipprojects/RA_Work/Taisuke_Nakata/Zero_Lower_Bound/DeflationaryRegime/Uncertainty/Draft/Figs/ar1/nstate/RAFR
-% stylized_rouwenhorst_RAFR_cPHIpi_m
 %--------------------------------------------------------------------------
 
 
@@ -130,7 +128,7 @@ for j = 1:length(cSIGMAd_grid)
 end
 
 xlabel('Inflation','FontSize',25)
-ylabel('Nominal Interst Rate','FontSize',25)
+ylabel('Nominal Interest Rate','FontSize',25)
 set(gca,'Xlim',[400*pi_m(1), 400*pi_m(end)],'Ylim',[-1 4],'FontSize',25) 
 L = legend([h(1) h(2) h(3)],'\sigma^{L}_{\epsilon}','\sigma^{M}_{\epsilon}','\sigma_{\epsilon}^{Max}');
 set(L,'Location','NorthWest','Fontsize',20)

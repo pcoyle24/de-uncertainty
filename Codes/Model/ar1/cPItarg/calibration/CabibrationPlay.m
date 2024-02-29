@@ -1,9 +1,7 @@
 %--------------------------------------------------------------------------
-% File Name: stylized_rouwenhorst_moments_cPHIpi_m.m
+% File Name: CalibrationPlay.m
 % Author: Philip Coyle
 % Date Created: 01/18/2019
-% cd /mq/philipprojects/RA_Work/Taisuke_Nakata/Zero_Lower_Bound/DeflationaryRegime/Uncertainty/Draft/Figs/ar1/nstate/moments
-% matlab -nodesktop -nosplash -r stylized_rouwenhorst_moments_cPHIpi_m
 %--------------------------------------------------------------------------
 
 clear all

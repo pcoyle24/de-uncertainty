@@ -1,9 +1,7 @@
 %--------------------------------------------------------------------------
-% File Name: stylized_rouwenhorst_RAFR.m
+% File Name: RAFRFramework.m
 % Author: Philip Coyle
 % Date Created: 01/24/2019
-% cd /mq/philipprojects/RA_Work/Taisuke_Nakata/Zero_Lower_Bound/DeflationaryRegime/Uncertainty/Draft/Figs/ar1/nstate/RAFR
-% stylized_rouwenhorst_RAFR
 %--------------------------------------------------------------------------
 
 clear all

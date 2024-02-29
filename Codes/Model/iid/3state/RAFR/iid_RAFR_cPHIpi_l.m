@@ -1,9 +1,7 @@
 %--------------------------------------------------------------------------
-% File Name: RAFR_cPHIpi_m_pitarg.m
+% File Name: iid_RAFR_cPHIpi_l.m
 % Author: Philip Coyle
 % Date Created: 01/07/2019
-% cd /mq/philipprojects/RA_Work/Taisuke_Nakata/Zero_Lower_Bound/DeflationaryRegime/Uncertainty/Draft/Figs/iid/3state_iid_shock/RAFR
-% RAFR_cPHIpi_m_pitarg
 %--------------------------------------------------------------------------
 
 clear all
@@ -14,20 +12,20 @@ clc
 cBET = 1/1.0025;
 cSIGMA = 1;
 cKAPPA = 0.02;
-cPHIpi = 2;
+cPHIpi = 1.2;
 cRstar = 1/400;
-cPItarg = 2/400;
-p_m = 0.5; %Probability of being in the middle state 
+p_m = 0.1; %Probability of being in the middle state 
 
-cSHOCK_lb =((cPItarg + cRstar)*(cPHIpi - 1))/(cKAPPA*cPHIpi*cSIGMA);
-cSHOCK_ub =((cPItarg + cRstar)*(cKAPPA*cPHIpi*cSIGMA + 1))/(cKAPPA*cPHIpi*cSIGMA);
-cSHOCK_bound = -(2*(cPItarg + cRstar)*(cPHIpi - 1)*(cKAPPA*cPHIpi*cSIGMA + 1))/(cKAPPA*cPHIpi^2*cSIGMA*(cKAPPA*cSIGMA + 1)*(p_m - 1));
-cSHOCK_grid = [0.15, 0.33, max([cSHOCK_lb,cSHOCK_ub,cSHOCK_bound])];
+% cPHIpi = 2/(p_m - cKAPPA*cSIGMA*(1-p_m) + 1);
+cSHOCK_lb =((cRstar)*(cPHIpi - 1))/(cKAPPA*cPHIpi*cSIGMA);
+cSHOCK_ub =((cRstar)*(cKAPPA*cPHIpi*cSIGMA + 1))/(cKAPPA*cPHIpi*cSIGMA);
+cSHOCK_bound = -(2*(cRstar)*(cPHIpi - 1)*(cKAPPA*cPHIpi*cSIGMA + 1))/(cKAPPA*cPHIpi^2*cSIGMA*(cKAPPA*cSIGMA + 1)*(p_m - 1));
+cSHOCK_grid = [0.03, 0.075 max([cSHOCK_lb,cSHOCK_ub,cSHOCK_bound])];
 
 %% Housekeeping
 % Set Grid Intervals
 pi_m_low = -1.5/400;
-pi_m_high = 2.5/400;
+pi_m_high = 0.5/400;
 numgrid = 1001;
 pi_m = linspace(pi_m_low,pi_m_high, numgrid)';
 
@@ -40,14 +38,14 @@ rafr = zeros(numgrid,length(cSHOCK_grid));
 
 
 % Find max inflation that leads to ZLB binding
-bound = (-cRstar - cPItarg*(1-cPHIpi))/cPHIpi;
+bound = -cRstar/cPHIpi;
 
 inx_m = find(min(abs(pi_m - bound)) == abs(pi_m - bound));
 % Find pi_m point where middle state interst rate binds
 pi_m_zlb = pi_m(inx_m);
 
 % Taylor Rule
-tr = max(0,cRstar + cPItarg + cPHIpi*(pi_m - cPItarg));
+tr = max(0,cRstar + cPHIpi*pi_m);
 
 % 'Riskless' Fisher Relation
 fr = pi_m + cRstar;
@@ -57,13 +55,13 @@ for j = 1:length(cSHOCK_grid)
     %% Policy Functions from below (Assume middle state interst rate binds)
     % Low  High state inflation & expected inflation (as functions of middle state inflation)
     pi_l_b = pi_m - cKAPPA*cSIGMA*cSHOCK;
-    pi_h_b = (pi_m - cKAPPA*cSIGMA*(cRstar + cPItarg*(1-cPHIpi)- cSHOCK))/(1+cKAPPA*cSIGMA*cPHIpi);
+    pi_h_b = (pi_m - cKAPPA*cSIGMA*(cRstar - cSHOCK))/(1+cKAPPA*cSIGMA*cPHIpi);
     exp_pi_b = (1-p_m)/2*pi_l_b + p_m*pi_m + (1-p_m)/2*pi_h_b;
 
     % Low Middle and High state output & expected output (as functions of middle state inflation)
     y_m_b = (pi_m - cBET*exp_pi_b)/cKAPPA;
     y_l_b = y_m_b - cSIGMA*cSHOCK;
-    y_h_b = y_m_b - cSIGMA*(cRstar + cPItarg + cPHIpi*(pi_h_b - cPItarg) - cSHOCK);
+    y_h_b = y_m_b - cSIGMA*(cRstar + cPHIpi*pi_h_b - cSHOCK);
     exp_y_b = (1-p_m)/2*y_l_b + p_m*y_m_b + (1-p_m)/2*y_h_b;
 
     % Find pi_m point where high state interst rate binds
@@ -71,14 +69,14 @@ for j = 1:length(cSHOCK_grid)
     pi_lb_zlb(j) = pi_m(inx_lb(j));
 
     %% Policy Functions from above (Assume middle state interst rate does not bind)
-   % Low  High state inflation & expected inflation (as functions of middle state inflation)
-    pi_l_a = pi_m*(1+cKAPPA*cSIGMA*cPHIpi) + cKAPPA*cSIGMA*(-cPHIpi*cPItarg + cRstar + cPItarg - cSHOCK);
+    % Low  High state inflation & expected inflation (as functions of middle state inflation)
+    pi_l_a = pi_m*(1+cKAPPA*cSIGMA*cPHIpi) + cKAPPA*cSIGMA*(cRstar - cSHOCK);
     pi_h_a = pi_m + (cKAPPA*cSIGMA*cSHOCK)/(1+cKAPPA*cSIGMA*cPHIpi);
     exp_pi_a = (1-p_m)/2*pi_l_a + p_m*pi_m + (1-p_m)/2*pi_h_a;
 
     % Low Middle and High state output & expected output (as functions of middle state inflation)
     y_m_a = (pi_m - cBET*exp_pi_a)/cKAPPA;
-    y_l_a = y_m_a + cSIGMA*(cPHIpi*(pi_m - cPItarg) + cRstar + cPItarg - cSHOCK);
+    y_l_a = y_m_a + cSIGMA*(cPHIpi*pi_m + cRstar - cSHOCK);
     y_h_a = y_m_a + cSIGMA*(cPHIpi*(pi_m - pi_h_a) + cSHOCK);
     exp_y_a = (1-p_m)/2*y_l_a + p_m*y_m_a + (1-p_m)/2*y_h_a;
 
@@ -118,7 +116,7 @@ for j = 1:length(cSHOCK_grid)
             RSS(2) = inx(it + 1);
             it = it + 1;
         end
-    end   
+    end
     h(j) = plot(400*pi_m, 400*rafr(:,j),'Color','r','LineStyle',type{j},'LineWidth',3);
     p1 = plot(400*pi_m(RSS(1)),400*rafr(RSS(1),j));
     if j ~= 3
@@ -131,7 +129,7 @@ end
 
 xlabel('Inflation','FontSize',16)
 ylabel('Nominal Interest Rate','FontSize',16)
-set(gca,'Xlim',[400*pi_m(1), 400*pi_m(end)],'Ylim',[-1, 4],'FontSize',25)
+set(gca,'Xlim',[400*pi_m(1), 400*pi_m(end)],'Ylim',[-1, 2],'FontSize',25)
 L = legend([h(1) h(2) h(3)],'c_L','c_M','c_{max}');
 set(L,'Location','NorthWest','Fontsize',25)
 
@@ -146,5 +144,5 @@ end
 
 set(fig(1),'PaperOrientation','Landscape');
 set(fig(1),'PaperPosition',[0 0 11 8.5]);
-print(fig(1),'-dpdf',strcat(savedir,'iid_RAFR_cPHIpi_m_cPItarg.pdf'));
+print(fig(1),'-dpdf',strcat(savedir,'iid_RAFR_cPHIpi_l.pdf'));
 

@@ -1,9 +1,7 @@
 %--------------------------------------------------------------------------
-% File Name: RAFR_cPHIpi_l_pitarg.m
+% File Name: iid_RAFR_cPHIpi_l_cPItarg.m
 % Author: Philip Coyle
 % Date Created: 01/07/2019
-% cd /mq/philipprojects/RA_Work/Taisuke_Nakata/Zero_Lower_Bound/DeflationaryRegime/Uncertainty/Draft/Figs/iid/3state_iid_shock/RAFR
-% RAFR_cPHIpi_l_pitarg
 %--------------------------------------------------------------------------
 
 clear all

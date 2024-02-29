@@ -1,9 +1,7 @@
 %--------------------------------------------------------------------------
-% File Name: RAFR_cPHIpi_ub.m
+% File Name: iid_RAFR_cPHIpi_lb.m
 % Author: Philip Coyle
 % Date Created: 01/07/2019
-% cd /mq/philipprojects/RA_Work/Taisuke_Nakata/Zero_Lower_Bound/DeflationaryRegime/Uncertainty/Draft/Figs/iid/3state_iid_shock/RAFR
-% RAFR_cPHIpi_ub
 %--------------------------------------------------------------------------
 
 clear all
@@ -17,12 +15,13 @@ cKAPPA = 0.02;
 cRstar = 1/400;
 p_m = 0.5; %Probability of being in the middle state 
 
-cPHIpi = -2/(p_m + cKAPPA*cSIGMA*(1+p_m) - 1);
+cPHIpi = 2/(p_m - cKAPPA*cSIGMA*(1-p_m) + 1);
 cSHOCK_lb =((cRstar)*(cPHIpi - 1))/(cKAPPA*cPHIpi*cSIGMA);
 cSHOCK_ub =((cRstar)*(cKAPPA*cPHIpi*cSIGMA + 1))/(cKAPPA*cPHIpi*cSIGMA);
 cSHOCK_bound = -(2*(cRstar)*(cPHIpi - 1)*(cKAPPA*cPHIpi*cSIGMA + 1))/(cKAPPA*cPHIpi^2*cSIGMA*(cKAPPA*cSIGMA + 1)*(p_m - 1));
 
 cSHOCK_grid = [0.05, 0.075 max([cSHOCK_lb,cSHOCK_ub,cSHOCK_bound])];
+
 %% Housekeeping
 % Set Grid Intervals
 pi_m_low = -1.5/400;
@@ -146,5 +145,5 @@ end
 
 set(fig(1),'PaperOrientation','Landscape');
 set(fig(1),'PaperPosition',[0 0 11 8.5]);
-print(fig(1),'-dpdf',strcat(savedir,'iid_RAFR_cPHIpi_ub.pdf'));
+print(fig(1),'-dpdf',strcat(savedir,'iid_RAFR_cPHIpi_lb.pdf'));
 

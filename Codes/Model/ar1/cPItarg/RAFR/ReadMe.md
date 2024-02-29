@@ -15,5 +15,5 @@ The main code files are:
 
 The folder contains the following functions used in the above code files:
   - rouwenhorst.m: discritize state space based on Rouwenhorst method.
-  - eqmmat_x: solve model system of linear equations to obtain x in {TR Target Regime), DR Def. Regime)} allocations assuming ZLB never or ZLB always binds respectively for TR and DR.
-  - eqmrefine_x: solve model system of linear equations to obtain x in {TR Target Regime), DR Def. Regime)} allocations at each grid point if the ZLB does or does not bind.  
+  - eqmmat_x: solve model system of linear equations to obtain x in {TR (Target Regime), DR (Def. Regime)} allocations assuming ZLB never or ZLB always binds respectively for TR and DR.
+  - eqmrefine_x: solve model system of linear equations to obtain x in {TR (Target Regime), DR (Def. Regime)} allocations at each grid point if the ZLB does or does not bind.  

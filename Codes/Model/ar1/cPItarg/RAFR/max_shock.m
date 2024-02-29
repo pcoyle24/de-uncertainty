@@ -2,8 +2,6 @@
 % File Name: max_shock.m
 % Author: Philip Coyle
 % Date Created: 01/24/2019
-% cd /mq/philipprojects/RA_Work/Taisuke_Nakata/Zero_Lower_Bound/DeflationaryRegime/Uncertainty/Draft/Figs/ar1/nstate/RAFR
-% max_shock
 %--------------------------------------------------------------------------
 
 clear all

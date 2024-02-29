@@ -1,9 +1,7 @@
 %--------------------------------------------------------------------------
-% File Name: stylized_rouwenhorst_moments_cPHIpi_;.m
+% File Name: moments_cPHIpi_h.m
 % Author: Philip Coyle
 % Date Created: 01/18/2019
-% cd /mq/philipprojects/RA_Work/Taisuke_Nakata/Zero_Lower_Bound/DeflationaryRegime/Uncertainty/Draft/Figs/ar1/nstate/moments
-% matlab -nodesktop -nosplash -r stylized_rouwenhorst_moments_cPHIpi_l
 %--------------------------------------------------------------------------
 
 clear all
@@ -15,11 +13,11 @@ load('cSIGMAd_max.mat')
 cBET = 1/1.0025;
 cSIGMA = 1;
 cKAPPA = 0.02;
-cPHIpi = 2;
+cPHIpi = 10;
 cRstar = 1/400;
 cRHO = 0.8; 
 cPItarg= 2/400;
-cSIGMAd_grid = linspace(0,cSIGMAd_max.l-eps,51);
+cSIGMAd_grid = linspace(0,cSIGMAd_max.h-eps,51);
 
 numpts = 21;
 
@@ -261,6 +259,8 @@ else
     savedir = strcat(savedir,'/Final/');
 end
 
+
+
 set(fig(1),'PaperOrientation','Landscape');
 set(fig(1),'PaperPosition',[0 0 11 8.5]);
-print(fig(1),'-dpdf',strcat(savedir,'stylized_rouwenhorst_moments_cPHIpi_l.pdf'));
+print(fig(1),'-dpdf',strcat(savedir,'moments_cPHIpi_h.pdf'));

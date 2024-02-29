@@ -1,9 +1,7 @@
 %--------------------------------------------------------------------------
-% File Name: stylized_rouwenhorst_PFs_cPHIpi_l.m
+% File Name: PFs_cPHIpi_l.m
 % Author: Philip Coyle
 % Date Created: 01/08/2019
-% /mq/philipprojects/RA_Work/Taisuke_Nakata/Zero_Lower_Bound/DeflationaryRegime/Uncertainty/Draft/Figs/ar1/nstate/PFs
-% stylized_rouwenhorst_PFs_cPHIpi_l
 %--------------------------------------------------------------------------
 
 clear all
@@ -11,16 +9,15 @@ close all
 clc
 
 load('cSIGMAd_max.mat')
-
 %% Paramaters
 cBET = 1/1.0025;
 cSIGMA = 1;
 cKAPPA = 0.02;
-cPHIpi = 2;
+cPHIpi = 4;
 cRstar = 1/400;
 cRHO    = 0.8;
 cPItarg= 2/400; 
-cSIGMAd_grid = [ 0.55/100,  0.60/100,  cSIGMAd_max.l-eps];
+cSIGMAd_grid = [ 0.55/100,  0.60/100,  cSIGMAd_max.m-eps];
 
 colors = {':r','-.b','-k'};
 colors_line = {':r','b','k'};
@@ -182,4 +179,4 @@ end
 
 set(fig(1),'PaperOrientation','Landscape');
 set(fig(1),'PaperPosition',[0 0 11 8.5]);
-print(fig(1),'-dpdf',strcat(savedir,'stylized_rouwenhorst_PFs_cPHIpi_l.pdf'));
+print(fig(1),'-dpdf',strcat(savedir,'PFs_cPHIpi_m.pdf'));

@@ -1,9 +1,7 @@
 %--------------------------------------------------------------------------
-% File Name: RAFR_cPHIpi_lb.m
+% File Name: iid_RAFR_cPHIpi_m.m
 % Author: Philip Coyle
 % Date Created: 01/07/2019
-% cd /mq/philipprojects/RA_Work/Taisuke_Nakata/Zero_Lower_Bound/DeflationaryRegime/Uncertainty/Draft/Figs/iid/3state_iid_shock/RAFR
-% RAFR_cPHIpi_lb
 %--------------------------------------------------------------------------
 
 clear all
@@ -14,15 +12,15 @@ clc
 cBET = 1/1.0025;
 cSIGMA = 1;
 cKAPPA = 0.02;
+cPHIpi = 2;
 cRstar = 1/400;
 p_m = 0.5; %Probability of being in the middle state 
 
-cPHIpi = 2/(p_m - cKAPPA*cSIGMA*(1-p_m) + 1);
 cSHOCK_lb =((cRstar)*(cPHIpi - 1))/(cKAPPA*cPHIpi*cSIGMA);
 cSHOCK_ub =((cRstar)*(cKAPPA*cPHIpi*cSIGMA + 1))/(cKAPPA*cPHIpi*cSIGMA);
 cSHOCK_bound = -(2*(cRstar)*(cPHIpi - 1)*(cKAPPA*cPHIpi*cSIGMA + 1))/(cKAPPA*cPHIpi^2*cSIGMA*(cKAPPA*cSIGMA + 1)*(p_m - 1));
 
-cSHOCK_grid = [0.05, 0.075 max([cSHOCK_lb,cSHOCK_ub,cSHOCK_bound])];
+cSHOCK_grid = [0.05, 0.1, max([cSHOCK_lb,cSHOCK_ub,cSHOCK_bound])];
 
 %% Housekeeping
 % Set Grid Intervals
@@ -67,7 +65,7 @@ for j = 1:length(cSHOCK_grid)
     exp_y_b = (1-p_m)/2*y_l_b + p_m*y_m_b + (1-p_m)/2*y_h_b;
 
     % Find pi_m point where high state interst rate binds
-    inx_lb(j) = find(min(abs(pi_h_b - bound)) == abs(pi_h_b - bound),1);
+    inx_lb(j) = find(min(abs(pi_h_b - bound)) == abs(pi_h_b - bound));
     pi_lb_zlb(j) = pi_m(inx_lb(j));
 
     %% Policy Functions from above (Assume middle state interst rate does not bind)
@@ -83,7 +81,7 @@ for j = 1:length(cSHOCK_grid)
     exp_y_a = (1-p_m)/2*y_l_a + p_m*y_m_a + (1-p_m)/2*y_h_a;
 
     % Find pi_m point where low state interst rate binds
-    inx_ub(j) = find(min(abs(pi_l_a - bound)) == abs(pi_l_a - bound),1);
+    inx_ub(j) = find(min(abs(pi_l_a - bound)) == abs(pi_l_a - bound));
     pi_ub_zlb(j) = pi_m(inx_ub(j));
 
     %% Define Risk Adjusted Fisher Relationship   
@@ -108,31 +106,31 @@ hold on
 plot(400*pi_m, 400*tr,'Color','k','LineWidth',2);
 plot(400*pi_m, 400*fr,'Color','b','LineWidth',2);
 for j = 1:length(cSHOCK_grid)
+    [~,inx] = sort(abs(tr - rafr(:,j)));
     if j == length(cSHOCK_grid)
-        RSS = find(abs(tr - rafr(:,j)) < eps);   
+        RSS = inx(1);    
     else
-        [~,inx] = sort(abs(tr - rafr(:,j)));
         RSS = inx(1:2);
         it = 2;
         while abs(RSS(1) - RSS(2)) <= 10
             RSS(2) = inx(it + 1);
             it = it + 1;
         end
-    end    
+    end   
     h(j) = plot(400*pi_m, 400*rafr(:,j),'Color','r','LineStyle',type{j},'LineWidth',3);
+    p1 = plot(400*pi_m(RSS(1)),400*rafr(RSS(1),j));
     if j ~= 3
-        p1 = plot(400*pi_m(RSS(1)),400*rafr(RSS(1),j));
         p2 = plot(400*pi_m(RSS(2)),400*rafr(RSS(2),j)); 
         set([p1 p2],'Marker','o','MarkerEdgeColor','r','MarkerFaceColor','r','MarkerSize',8)
     else
-        p1 = plot(400*pi_m(RSS),400*rafr(RSS,j));
-        set(p1,'Marker','o','MarkerEdgeColor','r','MarkerFaceColor','r','MarkerSize',4)
+        set(p1,'Marker','o','MarkerEdgeColor','r','MarkerFaceColor','r','MarkerSize',8)
     end
 end
 
-xlabel('Inflation','FontSize',16)
-ylabel('Nominal Interst Rate','FontSize',16)
-set(gca,'Xlim',[400*pi_m(1), 400*pi_m(end)],'Ylim',[-1 1.5],'FontSize',25) 
+
+xlabel('Inflation','FontSize',20)
+ylabel('Nominal Interest Rate','FontSize',20)
+set(gca,'Xlim',[400*pi_m(1), 400*pi_m(end)],'Ylim',[-0.5, 2],'FontSize',25)
 L = legend([h(1) h(2) h(3)],'c_L','c_M','c_{max}');
 set(L,'Location','NorthWest','Fontsize',25)
 
@@ -145,7 +143,9 @@ else
     savedir = strcat(savedir,'/Final/');
 end
 
+
 set(fig(1),'PaperOrientation','Landscape');
 set(fig(1),'PaperPosition',[0 0 11 8.5]);
-print(fig(1),'-dpdf',strcat(savedir,'iid_RAFR_cPHIpi_lb.pdf'));
+print(fig(1),'-dpdf',strcat(savedir,'iid_RAFR_cPHIpi_m.pdf'));
+
 

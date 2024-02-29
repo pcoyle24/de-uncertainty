@@ -1,10 +1,7 @@
 %--------------------------------------------------------------------------
-% File Name: stylized_rouwenhorst_PFs_cPHIpi_h.m
+% File Name: PFs_cPHIpi_h.m
 % Author: Philip Coyle
 % Date Created: 01/08/2019
-% cd
-% /mq/philipprojects/RA_Work/Taisuke_Nakata/Zero_Lower_Bound/DeflationaryRegime/Uncertainty/Draft/Figs/ar1/nstate/PFs
-% stylized_rouwenhorst_PFs_cPHIpi_h
 %--------------------------------------------------------------------------
 
 clear all
@@ -182,6 +179,6 @@ end
 
 set(fig(1),'PaperOrientation','Landscape');
 set(fig(1),'PaperPosition',[0 0 11 8.5]);
-print(fig(1),'-dpdf',strcat(savedir,'stylized_rouwenhorst_PFs_cPHIpi_h.pdf'));
+print(fig(1),'-dpdf',strcat(savedir,'PFs_cPHIpi_h.pdf'));
 
 

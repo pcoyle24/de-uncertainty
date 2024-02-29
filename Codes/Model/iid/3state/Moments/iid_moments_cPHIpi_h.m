@@ -1,9 +1,7 @@
 %--------------------------------------------------------------------------
-% File Name: stylized_iid_moments_cPHIpi_h.m
+% File Name: iid_moments_cPHIpi_h.m
 % Author: Philip Coyle
 % Date Created: 01/24/2019
-% cd /mq/philipprojects/RA_Work/Taisuke_Nakata/Zero_Lower_Bound/DeflationaryRegime/Uncertainty/Draft/Figs/iid/nstate/moments
-% stylized_iid_moments_cPHIpi_h
 %--------------------------------------------------------------------------
 
 clear all
@@ -210,7 +208,6 @@ end
 
 set(fig(1),'PaperOrientation','Landscape');
 set(fig(1),'PaperPosition',[0 0 11 8.5]);
-% print(fig(1),'-depsc','stylized_iid_moments_cPHIpi_h.eps');
-print(fig(1),'-depsc',strcat(savedir,'stylized_iid_moments_cPHIpi_h.eps'));
+print(fig(1),'-dpdf',strcat(savedir,'iid_moments_cPHIpi_h.pdf'));
 
 

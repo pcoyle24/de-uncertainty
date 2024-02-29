@@ -1,9 +1,7 @@
 %--------------------------------------------------------------------------
-% File Name: stylized_iid_moments_cPHIpi_l.m
+% File Name: iid_moments_cPHIpi_m.m
 % Author: Philip Coyle
 % Date Created: 01/24/2019
-% cd /mq/philipprojects/RA_Work/Taisuke_Nakata/Zero_Lower_Bound/DeflationaryRegime/Uncertainty/Draft/Figs/iid/nstate/moments
-% stylized_iid_moments_cPHIpi_l
 %--------------------------------------------------------------------------
 
 clear all
@@ -16,11 +14,11 @@ load ('cSIGMAd_max.mat')
 cBET = 1/1.0025;
 cSIGMA = 1;
 cKAPPA = 0.02;
-cPHIpi = 1.2;
+cPHIpi = 2;
 cRstar = 1/400;
 p_m = 0.5; %Probability of being in the middle state 
 
-cSIGMAd_grid = linspace(0,cSIGMAd_max.l,51);
+cSIGMAd_grid = linspace(0,cSIGMAd_max.m,51);
 % cSIGMAd_grid = cSIGMAd_max;
 
 nstate = 3;
@@ -174,7 +172,7 @@ end
 %% Plotting
 X_tr = [100*rss_y_tr,400*rss_pi_tr,400*rss_i_tr,100*e_y_tr,400*e_pi_tr,400*e_i_tr,100*e_elb_tr];
 X_dr = [100*rss_y_dr,400*rss_pi_dr,400*rss_i_dr,100*e_y_dr,400*e_pi_dr,400*e_i_dr,100*e_elb_dr];
-ylims = [0 0.05; -1 0; 0 1;-0.01 0.02; -1 0.001; 0 1.001;0 100];
+ylims = [0 0.2; -1 0; 0 1;-0.01 0.1; -1.001 0.001; 0 1.001;0 100];
 
 header = {'y_{RSS}','\pi_{RSS}','i_{RSS}','E[y]','E[\pi]','E[i]','Prob[ELB]'};
 
@@ -210,7 +208,6 @@ end
 
 set(fig(1),'PaperOrientation','Landscape');
 set(fig(1),'PaperPosition',[0 0 11 8.5]);
-% print(fig(1),'-depsc','stylized_iid_moments_cPHIpi_l.eps');
-print(fig(1),'-depsc',strcat(savedir,'stylized_iid_moments_cPHIpi_l.eps'));
+print(fig(1),'-dpdf',strcat(savedir,'iid_moments_cPHIpi_m.pdf'));
 
 
